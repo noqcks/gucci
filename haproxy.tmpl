@@ -1,0 +1,33 @@
+global
+defaults
+  log global
+  mode http
+  option httplog
+  option dontlognull
+  timeout connect 5s
+  timeout client 60s
+  timeout server 60s
+  timeout queue  60s
+  option httpclose
+  option abortonclose
+  balance roundrobin
+  option forwardfor
+  retries 2
+  errorfile 400 /usr/local/etc/haproxy/errors/400.http
+  errorfile 403 /usr/local/etc/haproxy/errors/403.http
+  errorfile 408 /usr/local/etc/haproxy/errors/408.http
+  errorfile 500 /usr/local/etc/haproxy/errors/500.http
+  errorfile 502 /usr/local/etc/haproxy/errors/502.http
+  errorfile 503 /usr/local/etc/haproxy/errors/503.http
+  errorfile 504 /usr/local/etc/haproxy/errors/504.http
+
+
+frontend http-in
+  bind :80
+  monitor-uri /
+  default_backend servers
+
+
+backend servers
+  mode http
+  server {{ .BACKEND }} {{ .BACKEND }} check fall 3 rise 2
