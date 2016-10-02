@@ -1,6 +1,6 @@
 # Gucci
 
-A simple golang templating cli tool
+A simple cli templating tool written in golang
 
 [![Build Status](https://travis-ci.org/noqcks/gucci.svg?branch=master)](https://travis-ci.org/noqcks/gucci)
 
