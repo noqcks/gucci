@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"github.com/urfave/cli"
 	"io"
 	"os"
 	"strings"
@@ -41,10 +43,27 @@ func ExecuteTemplates(values_in map[string]string, out io.Writer, tpl_file strin
 	return nil
 }
 
-func main() {
-	err := ExecuteTemplates(Env(), os.Stdout, os.Args[1])
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+func noArgs() bool {
+	if len(os.Args) < 2 {
+		return true
 	}
+	return false
+}
+
+func main() {
+	app := cli.NewApp()
+	app.Name = "gucci"
+	app.Usage = "simple golang cli templating"
+	app.Version = "0.0.1"
+	app.Action = func(c *cli.Context) error {
+		if noArgs() {
+			return errors.New("Error: Must have at least one cli arg for template file")
+		}
+		err := ExecuteTemplates(Env(), os.Stdout, os.Args[1])
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	app.Run(os.Args)
 }

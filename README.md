@@ -2,6 +2,12 @@
 
 A simple golang templating cli tool.
 
+# Get
+
+```
+go get github.com/noqcks/gucci
+```
+
 # Use
 
 ```
