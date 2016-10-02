@@ -10,6 +10,10 @@ import (
 	"text/template"
 )
 
+var funcMap = template.FuncMap{
+	"split": strings.Split,
+}
+
 func getkeyval(item string) (key, val string) {
 	splits := strings.Split(item, "=")
 	key = splits[0]
@@ -26,11 +30,14 @@ func Env() map[string]string {
 	return env
 }
 
-func ExecuteTemplates(values_in map[string]string, out io.Writer, tpl_file string) error {
-	funcMap := template.FuncMap{
-		"split": strings.Split,
+func noArgs() bool {
+	if len(os.Args) < 2 {
+		return true
 	}
+	return false
+}
 
+func ExecuteTemplates(values_in map[string]string, out io.Writer, tpl_file string) error {
 	tpl, err := template.New(tpl_file).Funcs(funcMap).ParseFiles(tpl_file)
 	if err != nil {
 		return fmt.Errorf("Error parsing template(s): %v", err)
@@ -41,13 +48,6 @@ func ExecuteTemplates(values_in map[string]string, out io.Writer, tpl_file strin
 		return fmt.Errorf("Failed to parse standard input: %v", err)
 	}
 	return nil
-}
-
-func noArgs() bool {
-	if len(os.Args) < 2 {
-		return true
-	}
-	return false
 }
 
 func main() {
