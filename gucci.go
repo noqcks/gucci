@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"github.com/urfave/cli"
 	"io"
@@ -57,7 +56,8 @@ func main() {
 	app.Version = "0.0.1"
 	app.Action = func(c *cli.Context) error {
 		if noArgs() {
-			return errors.New("Error: Must have at least one cli arg for template file")
+			cli.ShowAppHelp(c)
+			return nil
 		}
 		err := ExecuteTemplates(Env(), os.Stdout, os.Args[1])
 		if err != nil {
