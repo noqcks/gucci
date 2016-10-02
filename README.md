@@ -8,11 +8,13 @@ A simple cli templating tool written in golang
 
 # Get
 
+If you have go installed
+
 ```
 go get github.com/noqcks/gucci
 ```
 
-To install the binary, download the latest release and move it into your path.
+Or you can just download the binary and move it into your path
 
 ```
 wget -q https://github.com/noqcks/gucci/releases/download/v0.0.1/gucci-v0.0.1-darwin-amd64
