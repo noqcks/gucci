@@ -25,8 +25,11 @@ func Env() map[string]string {
 }
 
 func ExecuteTemplates(values_in map[string]string, out io.Writer, tpl_file string) error {
+	funcMap := template.FuncMap{
+		"split": strings.Split,
+	}
 
-	tpl, err := template.ParseFiles(tpl_file)
+	tpl, err := template.New(tpl_file).Funcs(funcMap).ParseFiles(tpl_file)
 	if err != nil {
 		return fmt.Errorf("Error parsing template(s): %v", err)
 	}
