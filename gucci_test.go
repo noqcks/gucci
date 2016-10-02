@@ -20,7 +20,7 @@ func TestSub(t *testing.T) {
 }
 
 func TestSubSplit(t *testing.T) {
-	tpl := `{{- range split .BACKENDS "," }}{{ . }}{{- end }}`
+	tpl := `{{ range split .BACKENDS "," }}{{ . }}{{ end }}`
 	if err := runTest(tpl, "server1.comserver2.com"); err != nil {
 		t.Error(err)
 	}
