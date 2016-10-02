@@ -34,13 +34,18 @@ This follows the same syntax as golang templating.
 
 For example an ENV var $LOCALHOST = 127.0.0.1
 
+gucci template.tpl > template.conf
+
+
 ```
+# template.tpl
 {{ .LOCALHOST }}
 ```
 
--->
+`gucci template.tpl > template.conf` -->
 
 ```
+# template.conf
 127.0.0.1
 ```
 
@@ -51,14 +56,17 @@ simple enough!
 For iteration of ENV vars, you can set $BACKENDS=server1.com,server2.com
 
 ```
+# template.tpl
 {{- range split .BACKENDS "," }}
 server {{ . }}
 {{- end }}
 ```
 
--->
+`gucci template.tpl > template.conf` -->
+
 
 ```
+# template.conf
 server server1.com
 server server2.com
 ```
