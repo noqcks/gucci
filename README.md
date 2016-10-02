@@ -10,6 +10,14 @@ A simple golang templating cli tool
 go get github.com/noqcks/gucci
 ```
 
+To install the binary, download the latest release and move it into your path.
+
+```
+wget -q https://github.com/noqcks/gucci/releases/download/v0.0.1/gucci-v0.0.1-darwin-amd64
+mv gucci-v0.0.1-darwin-amd64 /usr/local/bin/gucci
+```
+
+
 # Use
 
 ```

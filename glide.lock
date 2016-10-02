@@ -1,0 +1,6 @@
+hash: 7a31257df14e7646a03c98019b019f3eff2db498f55610be045449d4c50ec5e4
+updated: 2016-10-02T13:34:39.291563581-04:00
+imports:
+- name: github.com/urfave/cli
+  version: a14d7d367bc02b1f57d88de97926727f2d936387
+testImports: []
