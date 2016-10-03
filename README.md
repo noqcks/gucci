@@ -32,7 +32,7 @@ gucci template.tpl > template.conf
 
 ### Single
 
-This follows the same syntax as golang templating.
+This follows the same syntax as [golang templating](https://golang.org/pkg/text/template/).
 
 For example an ENV var $LOCALHOST = 127.0.0.1
 
