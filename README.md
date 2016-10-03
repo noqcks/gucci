@@ -76,4 +76,4 @@ server server2.com
 # TODO
 
 - a more complete function list
-- return template output to template, but errs to STDOUT
+- return template output to template, but errs to terminal (not template)
