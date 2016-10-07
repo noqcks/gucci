@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
@@ -51,13 +52,13 @@ func noArgs() bool {
 	return false
 }
 
-func ExecuteTemplates(values_in map[string]string, out io.Writer, tpl_file string) error {
-	tpl, err := template.New(tpl_file).Funcs(funcMap).ParseFiles(tpl_file)
+func ExecuteTemplate(valuesIn map[string]string, out io.Writer, tplFile string) error {
+	tplName := filepath.Base(tplFile)
+	tpl, err := template.New(tplName).Funcs(funcMap).ParseFiles(tplFile)
 	if err != nil {
 		return fmt.Errorf("Error parsing template(s): %v", err)
 	}
-
-	err = tpl.Execute(out, values_in)
+	err = tpl.Execute(out, valuesIn)
 	if err != nil {
 		return fmt.Errorf("Failed to parse standard input: %v", err)
 	}
@@ -74,7 +75,7 @@ func main() {
 			cli.ShowAppHelp(c)
 			return nil
 		}
-		err := ExecuteTemplates(Env(), os.Stdout, os.Args[1])
+		err := ExecuteTemplate(Env(), os.Stdout, os.Args[1])
 		if err != nil {
 			return err
 		}
