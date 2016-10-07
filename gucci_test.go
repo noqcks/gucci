@@ -26,6 +26,13 @@ func TestSubSplit(t *testing.T) {
 	}
 }
 
+func TestFuncShell(t *testing.T) {
+	tpl := `{{ shell "echo hello" }}`
+	if err := runTest(tpl, "hello"); err != nil {
+		t.Error(err)
+	}
+}
+
 func runTest(tpl, expect string) error {
 
 	t, err := template.New("test").Funcs(funcMap).Parse(tpl)

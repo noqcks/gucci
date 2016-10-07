@@ -5,12 +5,27 @@ import (
 	"github.com/urfave/cli"
 	"io"
 	"os"
+	"os/exec"
 	"strings"
 	"text/template"
 )
 
 var funcMap = template.FuncMap{
 	"split": strings.Split,
+	"shell": shell,
+}
+
+func shell(cmd string) string {
+	parts := strings.Fields(cmd)
+	head := parts[0]
+	parts = parts[1:len(parts)]
+
+	out, err := exec.Command(head, parts...).Output()
+	if err != nil {
+		return err.Error()
+	}
+	output := strings.TrimSpace(string(out))
+	return output
 }
 
 func getkeyval(item string) (key, val string) {
