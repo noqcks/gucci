@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/urfave/cli"
 	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/urfave/cli"
 )
 
 var funcMap = template.FuncMap{
@@ -19,7 +20,7 @@ var funcMap = template.FuncMap{
 func shell(cmd string) string {
 	parts := strings.Fields(cmd)
 	head := parts[0]
-	parts = parts[1:len(parts)]
+	parts = parts[1:]
 
 	out, err := exec.Command(head, parts...).Output()
 	if err != nil {
