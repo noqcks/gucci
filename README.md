@@ -28,9 +28,9 @@ mv gucci-v0.0.1-darwin-amd64 /usr/local/bin/gucci
 gucci template.tpl > template.conf
 ```
 
-# Templates
+# Templating
 
-### Single
+### Single ENV Var
 
 This follows the same syntax as [golang templating](https://golang.org/pkg/text/template/).
 
@@ -53,7 +53,7 @@ gucci template.tpl > template.conf
 
 simple enough!
 
-### Iteration
+### Iterative ENV Var
 
 For iteration of ENV vars, you can set $BACKENDS=server1.com,server2.com
 
@@ -72,6 +72,21 @@ server {{ . }}
 server server1.com
 server server2.com
 ```
+
+### Functions
+
+This is a list of all functions that you can use from inside your templates.
+
+- `split`: Used to split strings
+
+  ```
+  {{ split .BACKENDS "," }}
+  ```
+- `shell`: For arbitrary shell commands
+
+   ```
+   {{ shell "cat VERSION.txt" }}
+   ```
 
 # TODO
 
