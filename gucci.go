@@ -68,7 +68,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "gucci"
 	app.Usage = "simple golang cli templating"
-	app.Version = "0.0.1"
+	app.Version = "0.0.2"
 	app.Action = func(c *cli.Context) error {
 		if noArgs() {
 			cli.ShowAppHelp(c)
