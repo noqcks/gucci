@@ -11,12 +11,6 @@ env:
   global:
     - VERSION=`cat VERSION`
 
-before_install:
-  - curl https://glide.sh/get | sh
-
-install:
-  - glide install
-
 script:
   - "echo $VERSION"
   - go test
