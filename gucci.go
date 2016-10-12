@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/urfave/cli"
 	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/urfave/cli"
 )
 
 var funcMap = template.FuncMap{
