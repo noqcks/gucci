@@ -20,6 +20,7 @@ install:
   - glide install
 
 script:
+  - go get
   - go test
   - mkdir -p release
   - "GOOS=linux  GOARCH=amd64 go build -o release/gucci-v$VERSION-linux-amd64"
