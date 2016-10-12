@@ -9,7 +9,7 @@ go:
 
 env:
   global:
-    - VERSION=0.0.3
+    - VERSION=`cat VERSION`
 
 before_install:
   - wget "https://github.com/Masterminds/glide/releases/download/v0.12.3/glide-v0.12.3-linux-amd64.tar.gz"
@@ -21,12 +21,11 @@ install:
   - glide install
 
 script:
-  - "echo $VERSION"
+  - echo $VERSION
   - go test
   - mkdir -p release
   - "GOOS=linux  GOARCH=amd64 go build -o release/gucci-v$VERSION-linux-amd64"
   - "GOOS=darwin GOARCH=amd64 go build -o release/gucci-v$VERSION-darwin-amd64"
-  - ls release
 
 deploy:
   provider: releases
