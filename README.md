@@ -17,9 +17,10 @@ go get github.com/noqcks/gucci
 Or you can just download the binary and move it into your path
 
 ```
-wget -q https://github.com/noqcks/gucci/releases/download/v0.0.1/gucci-v0.0.1-darwin-amd64
-chmod +x gucci-v0.0.1-darwin-amd64
-mv gucci-v0.0.1-darwin-amd64 /usr/local/bin/gucci
+VERSION=0.0.1
+wget -q https://github.com/noqcks/gucci/releases/download/v${VERSION}/gucci-v${VERSION}-darwin-amd64
+chmod +x gucci-v${VERSION}-darwin-amd64
+mv gucci-v${VERSION}-darwin-amd64 /usr/local/bin/gucci
 ```
 
 
