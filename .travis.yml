@@ -11,10 +11,14 @@ env:
   global:
     - VERSION=`cat VERSION`
 
+before_install:
+  - curl https://glide.sh/get | sh
+
 install:
   - glide install
 
 script:
+  - "echo $VERSION"
   - go test
   - mkdir -p release
   - "GOOS=linux  GOARCH=amd64 go build -o release/gucci-v$VERSION-linux-amd64"
