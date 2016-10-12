@@ -34,6 +34,6 @@ deploy:
   file:
     - release/gucci-v$VERSION-linux-amd64
     - release/gucci-v$VERSION-darwin-amd64
+  skip_cleanup: true
   on:
-    repo: noqcks/gucci
-    branch: travis-ci
+    tags: true
