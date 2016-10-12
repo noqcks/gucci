@@ -17,11 +17,7 @@ var funcMap = template.FuncMap{
 }
 
 func shell(cmd string) string {
-	parts := strings.Fields(cmd)
-	head := parts[0]
-	parts = parts[1:len(parts)]
-
-	out, err := exec.Command(head, parts...).Output()
+	out, err := exec.Command("bash", "-c", cmd).Output()
 	if err != nil {
 		return err.Error()
 	}
@@ -69,7 +65,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "gucci"
 	app.Usage = "simple golang cli templating"
-	app.Version = "0.0.2"
+	app.Version = "0.0.3"
 	app.Action = func(c *cli.Context) error {
 		if noArgs() {
 			cli.ShowAppHelp(c)
