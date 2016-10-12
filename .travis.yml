@@ -9,7 +9,7 @@ go:
 
 env:
   global:
-    - VERSION=`cat VERSION`
+    - VERSION=0.0.3
 
 before_install:
   - wget "https://github.com/Masterminds/glide/releases/download/0.12.3/glide-0.12.3-linux-amd64.tar.gz"
