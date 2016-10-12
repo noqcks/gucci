@@ -6,18 +6,19 @@ go:
 - 1.6
 - tip
 
-# env:
-#   global:
-#     - VERSION=`cat VERSION`
-#     - OTHER_VERSION=
+env:
+  global:
+    - VERSION=$(cat VERSION)
 
 script:
+  - echo $VERSION
   - cat VERSION
   - go get
   - go test
   - mkdir -p release
   - "GOOS=linux  GOARCH=amd64 go build -o release/gucci-v`cat VERSION`-linux-amd64"
   - "GOOS=darwin GOARCH=amd64 go build -o release/gucci-v`cat VERSION`-darwin-amd64"
+  - ls release
 
 deploy:
   provider: releases
