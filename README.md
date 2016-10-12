@@ -90,5 +90,5 @@ This is a list of all functions that you can use from inside your templates.
 
 # TODO
 
-- a more complete function list
-- return template output to template, but errs to terminal (not template)
+- Return template output to template, but errs to terminal (not template)
+- Add a changelog for each release
