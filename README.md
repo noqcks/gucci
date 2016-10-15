@@ -26,8 +26,27 @@ mv gucci-v${VERSION}-darwin-amd64 /usr/local/bin/gucci
 
 # Use
 
+gucci can take input in multiple ways
+
+### file
+
 ```
-gucci template.tpl > template.conf
+$ gucci template.tpl > template.conf
+```
+
+### stdin
+
+```
+$ gucci
+Start typing stuff {{ print "here" }}
+^d
+Start typing stuff here
+```
+
+or via piping
+
+```
+$ echo '{{ html "<escape-me/>" }}' | gucci
 ```
 
 # Templating

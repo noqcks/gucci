@@ -34,7 +34,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "gucci"
 	app.Usage = "simple golang cli templating"
-	app.Version = "0.0.3"
+	app.Version = "0.0.4"
 	app.Action = func(c *cli.Context) error {
 		f := ""
 		if !noArgs() {
