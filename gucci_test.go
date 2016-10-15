@@ -65,7 +65,7 @@ func TestGetKeyVal(t *testing.T) {
 
 func TestEnv(t *testing.T) {
 	os.Setenv("k", "v")
-	envs := Env()
+	envs := env()
 	if v, ok := envs["k"]; !ok || (ok && v != "v") {
 		t.Errorf("broken behavior. Expected: %v. Got: %v", "v", v)
 	}
@@ -92,13 +92,13 @@ func TestNoArgs(t *testing.T) {
 }
 
 func runTest(str, expect string) error {
-	tpl, err := LoadString("test", str)
+	tpl, err := loadString("test", str)
 	if err != nil {
 		return err
 	}
 
 	var b bytes.Buffer
-	err = ExecuteTemplate(testMap, &b, tpl)
+	err = executeTemplate(testMap, &b, tpl)
 	if err != nil {
 		return err
 	}
