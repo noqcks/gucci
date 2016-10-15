@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"testing"
-	"text/template"
 )
 
 var testMap = map[string]string{
@@ -38,6 +37,13 @@ func TestFuncShellError(t *testing.T) {
 	tpl := `{{ shell "non-existent" }}`
 	if err := runTest(tpl, ""); err == nil {
 		t.Error("expected error missing")
+	}
+}
+
+func TestFuncShellPipe(t *testing.T) {
+	tpl := `{{ shell "echo foo | grep foo" }}`
+	if err := runTest(tpl, "foo"); err != nil {
+		t.Error(err)
 	}
 }
 
@@ -85,14 +91,14 @@ func TestNoArgs(t *testing.T) {
 	os.Args = oldArgs
 }
 
-func runTest(tpl, expect string) error {
-
-	t, err := template.New("test").Funcs(funcMap).Parse(tpl)
+func runTest(str, expect string) error {
+	tpl, err := LoadString("test", str)
 	if err != nil {
 		return err
 	}
+
 	var b bytes.Buffer
-	err = t.Execute(&b, testMap)
+	err = ExecuteTemplate(testMap, &b, tpl)
 	if err != nil {
 		return err
 	}
