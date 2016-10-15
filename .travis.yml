@@ -10,13 +10,16 @@ env:
   global:
     - VERSION=$(cat VERSION)
 
-script:
+before_script:
   - go get
+
+script:
   - go test
+
+before_deploy:
   - mkdir -p release
   - "GOOS=linux  GOARCH=amd64 go build -o release/gucci-v$VERSION-linux-amd64"
   - "GOOS=darwin GOARCH=amd64 go build -o release/gucci-v$VERSION-darwin-amd64"
-  - ls release
 
 ################# RELEASING ####################
 ## git tag -a vX.X.X -m "release information" ##
