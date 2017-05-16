@@ -1,6 +1,6 @@
 # Gucci
 
-A simple cli templating tool written in golang. I created this because I wanted something that was more powerful than `envsubt` to use when templating files at Docker container start.
+A simple CLI templating tool written in golang. I created this because I wanted something that was more powerful than `envsubt` to use when templating files on the command line.
 
 [![GitHub version](https://badge.fury.io/gh/noqcks%2Fgucci.svg)](https://badge.fury.io/gh/noqcks%2Fgucci)
 [![License](https://img.shields.io/github/license/noqcks/gucci.svg)](https://github.com/noqcks/gucci/blob/master/LICENSE)
@@ -17,7 +17,7 @@ go get github.com/noqcks/gucci
 Or you can just download the binary and move it into your path
 
 ```
-VERSION=0.0.1
+VERSION=0.0.4
 wget -q https://github.com/noqcks/gucci/releases/download/v${VERSION}/gucci-v${VERSION}-darwin-amd64
 chmod +x gucci-v${VERSION}-darwin-amd64
 mv gucci-v${VERSION}-darwin-amd64 /usr/local/bin/gucci
@@ -80,9 +80,9 @@ For iteration of ENV vars, you can set $BACKENDS=server1.com,server2.com
 
 ```
 # template.tpl
-{{- range split .BACKENDS "," }}
+{{ range split .BACKENDS "," }}
 server {{ . }}
-{{- end }}
+{{ end }}
 ```
 
 `gucci template.tpl > template.conf` -->
@@ -108,8 +108,3 @@ This is a list of all functions that you can use from inside your templates.
    ```
    {{ shell "cat VERSION.txt" }}
    ```
-
-# TODO
-
-- Return template output to template, but errs to terminal (not template)
-- Add a changelog for each release
