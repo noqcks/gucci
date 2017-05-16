@@ -108,3 +108,7 @@ This is a list of all functions that you can use from inside your templates.
    ```
    {{ shell "cat VERSION.txt" }}
    ```
+
+### TODO
+
+- add input sources (json & yaml files)
