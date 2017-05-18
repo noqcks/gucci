@@ -1,6 +1,6 @@
 # Gucci
 
-A simple CLI templating tool written in golang. I created this because I wanted something that was more powerful than `envsubt` to use when templating files on the command line.
+A simple CLI templating tool written in golang. I created this because I wanted something that was more powerful than `envsubt` to use when templating files on the command line. I also used golang because I wanted a single binary.
 
 [![GitHub version](https://badge.fury.io/gh/noqcks%2Fgucci.svg)](https://badge.fury.io/gh/noqcks%2Fgucci)
 [![License](https://img.shields.io/github/license/noqcks/gucci.svg)](https://github.com/noqcks/gucci/blob/master/LICENSE)
@@ -43,7 +43,7 @@ Start typing stuff {{ print "here" }}
 Start typing stuff here
 ```
 
-or via piping
+via piping
 
 ```
 $ echo '{{ html "<escape-me/>" }}' | gucci
@@ -51,11 +51,33 @@ $ echo '{{ html "<escape-me/>" }}' | gucci
 
 # Templating
 
-### Single ENV Var
+### GoLang Functions
 
-This follows the same syntax as [golang templating](https://golang.org/pkg/text/template/).
+All of the existing [golang templating functions](https://golang.org/pkg/text/template/#hdr-Functions) are available for use.
 
-For example an ENV var $LOCALHOST = 127.0.0.1
+### Built In Functions
+
+This is a list of custom functions this tool adds that you can use:
+
+- `split`: Used to split strings
+
+  ```
+  {{ range split .BACKENDS "," }}
+    server {{ . }}
+  {{ end }}
+  ```
+
+- `shell`: For arbitrary shell commands
+
+   ```
+   {{ shell "cat VERSION.txt" }}
+   ```
+
+## Example
+
+**NOTE**: gucci reads and makes available all environment variables.
+
+For example a var $LOCALHOST = 127.0.0.1
 
 gucci template.tpl > template.conf
 
@@ -74,9 +96,7 @@ gucci template.tpl > template.conf
 
 simple enough!
 
-### Iterative ENV Var
-
-For iteration of ENV vars, you can set $BACKENDS=server1.com,server2.com
+For an iteration example, you have $BACKENDS=server1.com,server2.com
 
 ```
 # template.tpl
@@ -93,21 +113,6 @@ server {{ . }}
 server server1.com
 server server2.com
 ```
-
-### Functions
-
-This is a list of all functions that you can use from inside your templates.
-
-- `split`: Used to split strings
-
-  ```
-  {{ split .BACKENDS "," }}
-  ```
-- `shell`: For arbitrary shell commands
-
-   ```
-   {{ shell "cat VERSION.txt" }}
-   ```
 
 ### TODO
 
