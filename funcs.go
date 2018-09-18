@@ -7,6 +7,7 @@ import (
 )
 
 var funcMap = template.FuncMap{
+	"join":  strings.Join,
 	"split": strings.Split,
 	"shell": shell,
 }
