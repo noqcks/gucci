@@ -12,7 +12,6 @@ env:
     - LDFLAGS=-X main.AppVersion=${VERSION}
 
 before_script:
-  - go get -d
   - go get github.com/onsi/ginkgo/ginkgo
 
 script:
