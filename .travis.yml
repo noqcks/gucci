@@ -13,9 +13,10 @@ env:
 
 before_script:
   - go get -d
+  - go get github.com/onsi/ginkgo/ginkgo
 
 script:
-  - go test
+  - ginkgo ./...
 
 before_deploy:
   - mkdir -p release
