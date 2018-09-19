@@ -12,7 +12,7 @@ env:
     - LDFLAGS=-X main.AppVersion=${VERSION}
 
 before_script:
-  - go get
+  - go get -d
 
 script:
   - go test
