@@ -9,7 +9,6 @@ import (
 
 var funcMap = template.FuncMap{
 	"b64enc": b64enc,
-	"join":   strings.Join,
 	"split":  strings.Split,
 	"shell":  shell,
 }

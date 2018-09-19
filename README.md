@@ -109,11 +109,6 @@ All of the existing [golang templating functions](https://golang.org/pkg/text/te
 
 This is a list of custom functions this tool adds that you can use:
 
-- `join`: Join a list of strings
-  ```
-  {{ join .MIRRORS "," }}
-  ```
-
 - `split`: Used to split strings
 
   ```
@@ -182,11 +177,5 @@ go get github.com/onsi/gomega
 Run tests:
 
 ```bash
-go test github.com/noqcks/gucci/...
-```
-
-Or, run tests with more informative output:
-
-```bash
-ginkgo src/github.com/noqcks/gucci/...
+ginkgo ./...
 ```

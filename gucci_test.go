@@ -9,19 +9,11 @@ import (
 var testVarMap = map[string]interface{}{
 	"TEST":     "green",
 	"BACKENDS": "server1.com,server2.com",
-	"LIST":     []string{"a", "b", "c"},
 }
 
 func TestSub(t *testing.T) {
 	tpl := `{{ .TEST }}`
 	if err := runTest(tpl, "green"); err != nil {
-		t.Error(err)
-	}
-}
-
-func TestFuncJoin(t *testing.T) {
-	tpl := `{{ join .LIST "," }}`
-	if err := runTest(tpl, "a,b,c"); err != nil {
 		t.Error(err)
 	}
 }
