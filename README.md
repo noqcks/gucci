@@ -109,6 +109,11 @@ All of the existing [golang templating functions](https://golang.org/pkg/text/te
 
 This is a list of custom functions this tool adds that you can use:
 
+- `b64enc`: Base64-encode a string
+  ```
+  encoded-value: {{ .VALUE | b64enc }} 
+  ```
+
 - `split`: Used to split strings
 
   ```
