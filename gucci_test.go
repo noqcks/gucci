@@ -3,11 +3,10 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"testing"
 )
 
-var testMap = map[string]string{
+var testVarMap = map[string]interface{}{
 	"TEST":     "green",
 	"BACKENDS": "server1.com,server2.com",
 }
@@ -19,7 +18,7 @@ func TestSub(t *testing.T) {
 	}
 }
 
-func TestSubSplit(t *testing.T) {
+func TestFuncSplit(t *testing.T) {
 	tpl := `{{ range split .BACKENDS "," }}{{ . }}{{ end }}`
 	if err := runTest(tpl, "server1.comserver2.com"); err != nil {
 		t.Error(err)
@@ -47,58 +46,14 @@ func TestFuncShellPipe(t *testing.T) {
 	}
 }
 
-func TestGetKeyVal(t *testing.T) {
-	tests := []struct {
-		in, k, v string
-	}{
-		{"k=v", "k", "v"},
-		{"kv", "kv", ""},
-		{"=kv", "", "kv"},
-	}
-	for _, tt := range tests {
-		k, v := getkeyval(tt.in)
-		if k != tt.k || v != tt.v {
-			t.Errorf("broken behavior. Expected: %#v Got: %v %v", tt, k, v)
-		}
-	}
-}
-
-func TestEnv(t *testing.T) {
-	os.Setenv("k", "v")
-	envs := env()
-	if v, ok := envs["k"]; !ok || (ok && v != "v") {
-		t.Errorf("broken behavior. Expected: %v. Got: %v", "v", v)
-	}
-}
-
-func TestNoArgs(t *testing.T) {
-	oldArgs := os.Args
-
-	cases := []struct {
-		args     []string
-		expected bool
-	}{
-		{[]string{"a"}, true},
-		{[]string{"a", "b", "c"}, false},
-	}
-
-	for _, tt := range cases {
-		os.Args = tt.args
-		if got := noArgs(); got != tt.expected {
-			t.Errorf("%#v Expected: %v Got: %v", tt.args, tt.expected, got)
-		}
-	}
-	os.Args = oldArgs
-}
-
 func runTest(str, expect string) error {
-	tpl, err := loadString("test", str)
+	tpl, err := loadTemplateString("test", str)
 	if err != nil {
 		return err
 	}
 
 	var b bytes.Buffer
-	err = executeTemplate(testMap, &b, tpl)
+	err = executeTemplate(testVarMap, &b, tpl)
 	if err != nil {
 		return err
 	}

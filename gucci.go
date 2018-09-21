@@ -2,33 +2,121 @@ package main
 
 import (
 	"fmt"
+	"github.com/imdario/mergo"
 	"io"
+	"log"
 	"os"
 	"text/template"
-	"log"
 
 	"github.com/urfave/cli"
 )
 
 var logger = log.New(os.Stderr, "", 0)
 
+const (
+	flagSetVar     = "s"
+	flagSetVarLong = flagSetVar + ",set-var"
+
+	flagVarsFile     = "f"
+	flagVarsFileLong = flagVarsFile + ",vars-file"
+)
+
+var (
+	AppVersion = "0.0.0-dev.0" // Injected
+)
+
 func main() {
 	app := cli.NewApp()
 	app.Name = "gucci"
-	app.Usage = "simple CLI templating"
-	app.Version = "0.0.4"
+	app.Usage = "simple CLI Go lang templating"
+	app.UsageText = app.Name + " [options] [template]"
+	app.Version = AppVersion
+
+	app.Flags = []cli.Flag{
+		cli.StringSliceFlag{
+			Name:  flagSetVarLong,
+			Usage: "A `KEY=VALUE` pair variable",
+		},
+		cli.StringFlag{
+			Name:  flagVarsFileLong,
+			Usage: "A json or yaml `FILE` from which to read variables",
+		},
+	}
+
 	app.Action = func(c *cli.Context) error {
-		f := ""
-		if !noArgs() {
-			f = os.Args[1]
+		tplPath := c.Args().First()
+		vars, err := loadVariables(c)
+		if err != nil {
+			return err
 		}
-		return run(f)
+
+		run(tplPath, vars)
+		return nil
 	}
 	app.Run(os.Args)
 }
 
+func loadInputVarsFile(c *cli.Context) (map[string]interface{}, error) {
+	var vars map[string]interface{}
 
-func executeTemplate(valuesIn map[string]string, out io.Writer, tpl *template.Template) error {
+	varsFilePath := c.String(flagVarsFile)
+	if varsFilePath != "" {
+		v, err := loadVarsFile(varsFilePath)
+		if err != nil {
+			return nil, err
+		}
+		vars = v
+	} else {
+		vars = make(map[string]interface{})
+	}
+
+	return vars, nil
+}
+
+func loadInputVarsOptions(c *cli.Context) (map[string]interface{}, error) {
+
+	vars := make(map[string]interface{})
+
+	for _, varStr := range c.StringSlice(flagSetVar) {
+		key, val := getKeyVal(varStr)
+		varMap := keyValToMap(key, val)
+
+		err := mergo.Merge(&vars, varMap, mergo.WithOverride)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return vars, nil
+}
+
+func loadVariables(c *cli.Context) (map[string]interface{}, error) {
+
+	vars, err := loadInputVarsFile(c)
+	if err != nil {
+		return nil, err
+	}
+
+	envVars := env()
+	err = mergo.Merge(&vars, envVars, mergo.WithOverride)
+	if err != nil {
+		return nil, err
+	}
+
+	optVars, err := loadInputVarsOptions(c)
+	if err != nil {
+		return nil, err
+	}
+
+	err = mergo.Merge(&vars, optVars, mergo.WithOverride)
+	if err != nil {
+		return nil, err
+	}
+
+	return vars, nil
+}
+
+func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *template.Template) error {
 	err := tpl.Execute(out, valuesIn)
 	if err != nil {
 		return fmt.Errorf("Failed to parse standard input: %v", err)
@@ -36,20 +124,20 @@ func executeTemplate(valuesIn map[string]string, out io.Writer, tpl *template.Te
 	return nil
 }
 
-func run(arg string) error {
-	tpl, err := loadFileOrStdin(arg)
+func run(tplPath string, vars map[string]interface{}) {
+	tpl, err := loadTemplateFileOrStdin(tplPath)
 	if err != nil {
 		logError("Error occurred while loading data:", err)
+		return
 	}
 
-	err = executeTemplate(env(), os.Stdout, tpl)
+	err = executeTemplate(vars, os.Stdout, tpl)
 	if err != nil {
 		logError("Error occurred while attempting to template:", err)
 	}
-	return nil
 }
 
 func logError(msg string, err error) {
-  logger.Println(msg)
-  logger.Println(err.Error())
+	logger.Println(msg)
+	logger.Println(err.Error())
 }

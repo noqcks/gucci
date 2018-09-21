@@ -1,14 +1,20 @@
 package main
 
 import (
+	"encoding/base64"
 	"os/exec"
 	"strings"
 	"text/template"
 )
 
 var funcMap = template.FuncMap{
-	"split": strings.Split,
-	"shell": shell,
+	"b64enc": b64enc,
+	"split":  strings.Split,
+	"shell":  shell,
+}
+
+func b64enc(str string) string {
+	return base64.StdEncoding.EncodeToString([]byte(str))
 }
 
 func shell(cmd string) string {
