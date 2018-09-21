@@ -9,7 +9,7 @@ go:
 env:
   global:
     - VERSION=$(cat VERSION)
-    - LDFLAGS=-X main.AppVersion=${VERSION}
+    - LDFLAGS="-X main.AppVersion=$VERSION"
 
 before_script:
   - go get github.com/onsi/ginkgo/ginkgo
