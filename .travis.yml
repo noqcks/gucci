@@ -19,8 +19,8 @@ script:
 
 before_deploy:
   - mkdir -p release
-  - "GOOS=linux  GOARCH=amd64 go build -ldflags \"${LDFLAGS}\" -o release/gucci-v$VERSION-linux-amd64"
-  - "GOOS=darwin GOARCH=amd64 go build -ldflags \"${LDFLAGS}\" -o release/gucci-v$VERSION-darwin-amd64"
+  - GOOS=linux  GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
+  - GOOS=darwin GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
 
 ################# RELEASING ####################
 ## git tag -a vX.X.X -m "release information" ##
@@ -31,8 +31,8 @@ deploy:
   api_key:
     secure: yGwDXUYPbpUFZk0csGWmMBJQQoNeCiWjXKQsZS8bcignCOQyDb5qvYJAJ58pBAJApGP2w/+vFIhb5z4EHJzZZMoaygykdcdBunpIeMcFlFxIj0ziMu5iYH92wevkuuUs5+Eb35+MjD5txhh4ndyvH4lAlnAktqF+c71V+a/thmfu71reCkT86FE+OroN1X51wtTtO2Y+w65oab5LdXU40yizLumHMXDgQ8mQ73gt6OZvZmCF9P9Toc0ps2C444tA+mul/WZcRVYAD3aKi1XyhNixO18/p7tAaCoRpzgZO3oGIgVRL+0OdWCcCvyLfi9vMvj7BZneZ/KMHemi3xyPq6s+aTL4KVVU7uCfobG3/rnqak1t3G3V2GHMsXPYbvD8SM3X8KY+P3bPPlYcD0WXF4R1ryAd9kVDF287fTxwanlMV4ReVac117rDHqwTPc+aEewGIF+4mkYqTpBiKlfKqyf4ow4bDtAAWPNxSEjEuFWmVouMwaYFbbVzDnVn6iKYiT0ZcplIyXDG6JvkLSNqoJ9c6/6MOZ4My7ZccPKuXfI6qzIjKAjPJlhgox/LFTbAeOYlvNseSYPX1z7B/bEwDXTa6jYuPnOs+LiEUgoVRxyQkAfJG/D9zDqBvDyonRl6ksc50yv6Ss1GG7DOjiKf/wVzRbsTeIBdqmU2qblS3s0=
   file:
-    - "release/gucci-v$VERSION-linux-amd64"
-    - "release/gucci-v$VERSION-darwin-amd64"
+    - release/gucci-v$VERSION-linux-amd64
+    - release/gucci-v$VERSION-darwin-amd64
   skip_cleanup: true
   on:
     tags: true
