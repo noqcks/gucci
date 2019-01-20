@@ -1,20 +1,23 @@
 package main
 
 import (
-	"encoding/base64"
 	"os/exec"
 	"strings"
 	"text/template"
+
+	"github.com/Masterminds/sprig"
 )
 
-var funcMap = template.FuncMap{
-	"b64enc": b64enc,
-	"split":  strings.Split,
-	"shell":  shell,
-}
+var funcMap = getFuncMap()
 
-func b64enc(str string) string {
-	return base64.StdEncoding.EncodeToString([]byte(str))
+func getFuncMap() template.FuncMap {
+	f := sprig.TxtFuncMap()
+	delete(f, "env")
+	delete(f, "expandenv")
+
+	f["shell"] = shell
+
+	return f
 }
 
 func shell(cmd string) string {
