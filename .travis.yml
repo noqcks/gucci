@@ -2,37 +2,34 @@ sudo: false
 language: go
 
 go:
-- "1.9"
-- "1.10"
-- "tip"
+- '1.9'
+- '1.10'
+- '1.11'
+- tip
 
 env:
   global:
-    - VERSION=$(cat VERSION)
-    - LDFLAGS="-X main.AppVersion=$VERSION"
+  - VERSION=$(cat VERSION)
+  - LDFLAGS="-X main.AppVersion=$VERSION"
 
 before_script:
-  - go get github.com/onsi/ginkgo/ginkgo
+- go get github.com/onsi/ginkgo/ginkgo
 
 script:
-  - ginkgo ./...
+- ginkgo ./...
 
 before_deploy:
-  - mkdir -p release
-  - GOOS=linux  GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
-  - GOOS=darwin GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
+- mkdir -p release
+- GOOS=linux  GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
+- GOOS=darwin GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
 
-################# RELEASING ####################
-## git tag -a vX.X.X -m "release information" ##
-## git push --tags origin branch              ##
-################################################
 deploy:
   provider: releases
   api_key:
-    secure: WERQuanRqUFlPZ+qAolZmPjgMAmgQXhdAPPi88xxOukogUtkX4AQieJV5FAxzBUA80OsOUdGp6W8ieraAWC2L1f2nh7i8TQg627CGfeYIG5rncArErGePLXtrOQA5uTpMQzApyNxXdDEtqhZIopjA4BZXljvo1cdpNR355JV9mcYgzJPL+sjz9rgPljCw/1VH0vNRs7lyEzV1+rEm/1XuhEDJuclx8ZHOSguwy17Eao3t+Cpu7Uyih3tMhhE5PRqqgx8sWYwmN1wQEy63MPuvR5LAF2HzPpyVOTRFlxjVVZ5+sXBuiKlIqBWtH0bhyqEsPDUjk8g0LQ9kckbzMbUFzsSM4pFExwuZbrzulpe37om6uTj4+HBGQvcarIm5x8CsJWMWjqSze03r7IAt77Cb7CG+VRx3O7WsAozh7zOL/N8C1l0Xl1DmW2OBILUSjgawTbCOeSFJAkXLlk3RC/awJRgF2759hRC4HNAEFNLI3C5i7dCXBkFgepsuO46uhGef7459iXg+68P4qsEwb+g7b3IXW8ltyVCCTrA5VGwW/vJwNrnn3Blkg8CL0CUYWHVt4PsXwHwTpz9fP9cfkvStkHkddzzl/e5ZFJIcuMuTFkULTWqgM9DxPEi8ysusz3xN6aUNHJGg86VJXgvzRAPvX1WuPQ2qoovq/TTF+iNQh0=
+    secure: Xj74zcKsvcZPKy67qLXp5bYPFBPh4crtbUMjPYM7BfGCxP9/7Cmhj/gaLdAaKKa2fPwOcZLs1I3ixdlaH9H6x4ORhSWoPYG/HIKYZQsXroQTRwkdN/JCBYKUT/gx2ngbu4wk7Wq2+sOw4Mw/kYAt8kzHRhDpdf72jcRQJlBkeVdlef0JUhYFM9hOCEa/6xVEs9/iUc8LwCMyd7o3oKtjSHsZaC1CBV16NRruDy0CnOD2r21VCXfJ5hUgAClNu8U3b0cLVOjEjwLkbUWYHm5Duk5VSbn0WNYO56mNK01aCOLq5+7PYxRLH+p1CmudQ3rTloBOVbBX+Q9TDKgHElxh4zYyI6FXXWS75ZyyjWd4qqiweJCWsFqe6Fo3c7JI8SV5OVNnaNu01dnj6dAxL9DabSblEI/qyyvYWm3hWCebzcOgdMRcYxD2+XppYguASZVs+qWiVRAVDkcEiN0/cPP2TK58Ei02QNaPAmU39Bqit0ABeDZqQBuXfaJZ8C95izVdn1SKwCfv4VUyqiugYRF9cD7cbrYsi1M+5EMQdiDTVAWGvtxQinySAgAH2a670iA4nZYQWQLg3GnVUXUHn4mvZ9i2zJFF2RgxLXRqj+ZEwa4sOwpdnOI45HYB71Sy4FE+uyHQM1TS/6P8hlEsBOsq29ABoMOmSs0rSwR7WA4IQPU=
   file:
-    - release/gucci-v$VERSION-linux-amd64
-    - release/gucci-v$VERSION-darwin-amd64
+  - release/gucci-v$VERSION-linux-amd64
+  - release/gucci-v$VERSION-darwin-amd64
   skip_cleanup: true
   on:
     repo: noqcks/gucci
