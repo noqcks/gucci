@@ -105,22 +105,13 @@ foo:
 
 All of the existing [golang templating functions](https://golang.org/pkg/text/template/#hdr-Functions) are available for use.
 
+#### Sprig Functions
+
+gucci ships with the [sprig templating functions library](http://masterminds.github.io/sprig/) offering a wide variety of template helpers. Sprig's `env` and `expandenv` functions are disabled in favor of gucci's own environment variable parsing (see below).
+
 #### Built In Functions
 
-This is a list of custom functions this tool adds that you can use:
-
-- `b64enc`: Base64-encode a string
-  ```
-  encoded-value: {{ .VALUE | b64enc }} 
-  ```
-
-- `split`: Used to split strings
-
-  ```
-  {{ range split .BACKENDS "," }}
-    server {{ . }}
-  {{ end }}
-  ```
+Furthermore, this tool also includes custom functions:
 
 - `shell`: For arbitrary shell commands
 

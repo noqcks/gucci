@@ -7,20 +7,12 @@ import (
 )
 
 var testVarMap = map[string]interface{}{
-	"TEST":     "green",
-	"BACKENDS": "server1.com,server2.com",
+	"TEST": "green",
 }
 
 func TestSub(t *testing.T) {
 	tpl := `{{ .TEST }}`
 	if err := runTest(tpl, "green"); err != nil {
-		t.Error(err)
-	}
-}
-
-func TestFuncSplit(t *testing.T) {
-	tpl := `{{ range split .BACKENDS "," }}{{ . }}{{ end }}`
-	if err := runTest(tpl, "server1.comserver2.com"); err != nil {
 		t.Error(err)
 	}
 }
