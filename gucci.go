@@ -47,10 +47,13 @@ func main() {
 		tplPath := c.Args().First()
 		vars, err := loadVariables(c)
 		if err != nil {
-			return err
+			return cli.NewExitError(err, 14)
 		}
 
-		run(tplPath, vars)
+		err = run(tplPath, vars)
+		if err != nil {
+			return cli.NewExitError(err, 32)
+		}
 		return nil
 	}
 	app.Run(os.Args)
@@ -124,17 +127,20 @@ func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *templa
 	return nil
 }
 
-func run(tplPath string, vars map[string]interface{}) {
+func run(tplPath string, vars map[string]interface{}) error {
 	tpl, err := loadTemplateFileOrStdin(tplPath)
+	tpl = tpl.Option("missingkey=error")
+
 	if err != nil {
-		logError("Error occurred while loading data:", err)
-		return
+		return err
 	}
 
 	err = executeTemplate(vars, os.Stdout, tpl)
 	if err != nil {
-		logError("Error occurred while attempting to template:", err)
+		return err
 	}
+
+	return nil
 }
 
 func logError(msg string, err error) {
