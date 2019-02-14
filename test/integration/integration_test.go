@@ -19,17 +19,17 @@ var _ = Describe("gucci", func() {
 			Expect(err).NotTo(HaveOccurred())
 			gucciCmd.Stdin = tpl
 
-			session := Run(gucciCmd)
+			session := RunWithError(gucciCmd, 1)
 
-			Expect(string(session.Out.Contents())).To(Equal("text <no value> text\n"))
+			Expect(string(session.Err.Contents())).To(Equal("Failed to parse standard input: template: -:1:8: executing \"-\" at <.FOO>: map has no entry for key \"FOO\"\n"))
 		})
 
 		It("loads file", func() {
 			gucciCmd := exec.Command(gucciPath, FixturePath("simple.tpl"))
 
-			session := Run(gucciCmd)
+			session := RunWithError(gucciCmd, 1)
 
-			Expect(string(session.Out.Contents())).To(Equal("text <no value> text\n"))
+			Expect(string(session.Err.Contents())).To(Equal("Failed to parse standard input: template: simple.tpl:1:8: executing \"simple.tpl\" at <.FOO>: map has no entry for key \"FOO\"\n"))
 		})
 
 	})

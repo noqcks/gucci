@@ -47,12 +47,12 @@ func main() {
 		tplPath := c.Args().First()
 		vars, err := loadVariables(c)
 		if err != nil {
-			return cli.NewExitError(err, 14)
+			return cli.NewExitError(err, 1)
 		}
 
 		err = run(tplPath, vars)
 		if err != nil {
-			return cli.NewExitError(err, 32)
+			return cli.NewExitError(err, 1)
 		}
 		return nil
 	}
