@@ -37,10 +37,18 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	gucciPath = string(data)
 })
 
+func RunWithError(gucciCmd *exec.Cmd, expectedError int) *gexec.Session {
+	return runWithExitCode(gucciCmd, expectedError)
+}
+
 func Run(gucciCmd *exec.Cmd) *gexec.Session {
+	return runWithExitCode(gucciCmd, 0)
+}
+
+func runWithExitCode(gucciCmd *exec.Cmd, expectedError int) *gexec.Session {
 	session, err := gexec.Start(gucciCmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).NotTo(HaveOccurred())
-	Eventually(session).Should(gexec.Exit(0))
+	Eventually(session).Should(gexec.Exit(expectedError))
 	return session
 }
 
