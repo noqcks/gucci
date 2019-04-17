@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
+	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
 
@@ -22,21 +23,19 @@ func getFuncMap() template.FuncMap {
 	return f
 }
 
-func shell(cmd string) string {
+func shell(cmd string) (string, error) {
 	out, err := exec.Command("bash", "-c", cmd).Output()
 	if err != nil {
-		panic("Issue running command: " + err.Error())
-		return ""
+		return "", errors.Wrap(err, "Issue running command")
 	}
 	output := strings.TrimSpace(string(out))
-	return output
+	return output, nil
 }
 
-func toYaml(v interface{}) string {
+func toYaml(v interface{}) (string, error) {
 	data, err := yaml.Marshal(v)
 	if err != nil {
-		panic("Issue marshalling yaml: " + err.Error())
-		return ""
+		return "", errors.Wrap(err, "Issue marsahling yaml")
 	}
-	return string(data)
+	return string(data), nil
 }
