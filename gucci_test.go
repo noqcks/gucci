@@ -38,6 +38,13 @@ func TestFuncShellPipe(t *testing.T) {
 	}
 }
 
+func TestFuncToYaml(t *testing.T) {
+	tpl := `{{ list "a" "b" "c" | toYaml }}`
+	if err := runTest(tpl, "- a\n- b\n- c\n"); err != nil {
+		t.Error(err)
+	}
+}
+
 func runTest(str, expect string) error {
 	tpl, err := loadTemplateString("test", str)
 	if err != nil {
