@@ -120,6 +120,7 @@ func loadVariables(c *cli.Context) (map[string]interface{}, error) {
 }
 
 func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *template.Template) error {
+	tpl.Option("missingkey=error")
 	err := tpl.Execute(out, valuesIn)
 	if err != nil {
 		return fmt.Errorf("Failed to parse standard input: %v", err)
@@ -129,8 +130,6 @@ func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *templa
 
 func run(tplPath string, vars map[string]interface{}) error {
 	tpl, err := loadTemplateFileOrStdin(tplPath)
-	tpl = tpl.Option("missingkey=error")
-
 	if err != nil {
 		return err
 	}
