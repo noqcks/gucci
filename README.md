@@ -116,7 +116,29 @@ Furthermore, this tool also includes custom functions:
 - `shell`: For arbitrary shell commands
 
    ```
-   {{ shell "cat VERSION.txt" }}
+   {{ shell "echo hello world" }}
+   ```
+
+   Produces:
+
+   ```
+   hello world
+   ```
+
+
+- `toYaml`: Print items in YAML format
+
+   ```
+   {{ $myList := list "a" "b" "c" }}
+   {{ toYaml $myList }}
+   ```
+
+   Produces:
+
+   ```
+   - a
+   - b
+   - c
    ```
 
 ### Example
