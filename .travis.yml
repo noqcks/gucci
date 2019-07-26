@@ -5,6 +5,7 @@ go:
 - '1.9'
 - '1.10'
 - '1.11'
+- '1.12'
 - tip
 
 env:
@@ -32,5 +33,6 @@ deploy:
   - release/gucci-v$VERSION-darwin-amd64
   skip_cleanup: true
   on:
+    go: '1.12'
     repo: noqcks/gucci
     tags: true
