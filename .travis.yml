@@ -10,7 +10,9 @@ env:
   global:
   - VERSION=$(cat VERSION)
   - LDFLAGS="-X main.AppVersion=$VERSION"
-  - GO111MODULE=on
+  # this cannot be enabled until we no longer support 1.11, urfave/cli
+  # supports onll > 1.12
+  # - GO111MODULE=on
 
 before_script:
 - go get github.com/onsi/ginkgo/ginkgo
