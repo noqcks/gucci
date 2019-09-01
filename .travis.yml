@@ -2,8 +2,6 @@ sudo: false
 language: go
 
 go:
-- '1.9'
-- '1.10'
 - '1.11'
 - '1.12'
 - tip
@@ -12,6 +10,7 @@ env:
   global:
   - VERSION=$(cat VERSION)
   - LDFLAGS="-X main.AppVersion=$VERSION"
+  - GO111MODULE=on
 
 before_script:
 - go get github.com/onsi/ginkgo/ginkgo
