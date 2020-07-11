@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"testing"
+
+	"github.com/noqcks/gucci/gucci"
 )
 
 var testVarMap = map[string]interface{}{
@@ -46,13 +48,13 @@ func TestFuncToYaml(t *testing.T) {
 }
 
 func runTest(str, expect string) error {
-	tpl, err := loadTemplateString("test", str)
+	tpl, err := gucci.LoadTemplateString("test", str)
 	if err != nil {
 		return err
 	}
 
 	var b bytes.Buffer
-	err = executeTemplate(testVarMap, &b, tpl)
+	err = gucci.ExecuteTemplate(testVarMap, &b, tpl)
 	if err != nil {
 		return err
 	}

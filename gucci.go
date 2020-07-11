@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"github.com/imdario/mergo"
-	"io"
 	"log"
 	"os"
-	"text/template"
 
+	"github.com/imdario/mergo"
+	"github.com/noqcks/gucci/gucci"
 	"github.com/urfave/cli"
 )
 
@@ -64,7 +62,7 @@ func loadInputVarsFile(c *cli.Context) (map[string]interface{}, error) {
 
 	varsFilePath := c.String(flagVarsFile)
 	if varsFilePath != "" {
-		v, err := loadVarsFile(varsFilePath)
+		v, err := gucci.LoadVarsFile(varsFilePath)
 		if err != nil {
 			return nil, err
 		}
@@ -81,8 +79,8 @@ func loadInputVarsOptions(c *cli.Context) (map[string]interface{}, error) {
 	vars := make(map[string]interface{})
 
 	for _, varStr := range c.StringSlice(flagSetVar) {
-		key, val := getKeyVal(varStr)
-		varMap := keyValToMap(key, val)
+		key, val := gucci.GetKeyVal(varStr)
+		varMap := gucci.KeyValToMap(key, val)
 
 		err := mergo.Merge(&vars, varMap, mergo.WithOverride)
 		if err != nil {
@@ -100,7 +98,7 @@ func loadVariables(c *cli.Context) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	envVars := env()
+	envVars := gucci.Env()
 	err = mergo.Merge(&vars, envVars, mergo.WithOverride)
 	if err != nil {
 		return nil, err
@@ -119,22 +117,13 @@ func loadVariables(c *cli.Context) (map[string]interface{}, error) {
 	return vars, nil
 }
 
-func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *template.Template) error {
-	tpl.Option("missingkey=error")
-	err := tpl.Execute(out, valuesIn)
-	if err != nil {
-		return fmt.Errorf("Failed to parse standard input: %v", err)
-	}
-	return nil
-}
-
 func run(tplPath string, vars map[string]interface{}) error {
-	tpl, err := loadTemplateFileOrStdin(tplPath)
+	tpl, err := gucci.LoadTemplateFileOrStdin(tplPath)
 	if err != nil {
 		return err
 	}
 
-	err = executeTemplate(vars, os.Stdout, tpl)
+	err = gucci.ExecuteTemplate(vars, os.Stdout, tpl)
 	if err != nil {
 		return err
 	}

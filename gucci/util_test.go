@@ -1,4 +1,4 @@
-package main
+package gucci
 
 import (
 	"os"
@@ -15,7 +15,7 @@ func TestGetKeyVal(t *testing.T) {
 		{"=kv", "", "kv"},
 	}
 	for _, tt := range tests {
-		k, v := getKeyVal(tt.in)
+		k, v := GetKeyVal(tt.in)
 		if k != tt.k || v != tt.v {
 			t.Errorf("broken behavior. Expected: %#v Got: %v %v", tt, k, v)
 		}
@@ -24,7 +24,7 @@ func TestGetKeyVal(t *testing.T) {
 
 func TestEnv(t *testing.T) {
 	os.Setenv("k", "v")
-	envs := env()
+	envs := Env()
 	if v, ok := envs["k"]; !ok || (ok && v != "v") {
 		t.Errorf("broken behavior. Expected: %v. Got: %v", "v", v)
 	}
@@ -65,7 +65,7 @@ func TestKeyValToMap(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		r := keyValToMap(test.key, test.value)
+		r := KeyValToMap(test.key, test.value)
 		if !reflect.DeepEqual(r, test.expected) {
 			t.Errorf("broken behavior. Expected: %v. Got: %v", test.expected, r)
 		}

@@ -1,4 +1,4 @@
-package main
+package gucci
 
 import (
 	"os/exec"
