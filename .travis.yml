@@ -8,7 +8,7 @@ go:
 env:
   global:
   - VERSION=$(cat VERSION)
-  - LDFLAGS="-X main.AppVersion=$VERSION"
+  - LDFLAGS='-X main.AppVersion=$VERSION -w -extldflags "static"'
   - GO111MODULE=on
 
 before_script:
@@ -19,8 +19,8 @@ script:
 
 before_deploy:
 - mkdir -p release
-- GOOS=linux  GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
-- GOOS=darwin GOARCH=amd64 go build -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
+- GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
+- GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
 
 deploy:
   provider: releases
