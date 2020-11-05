@@ -1,4 +1,5 @@
-sudo: false
+dist: xenial
+os: linux
 language: go
 
 go:
@@ -13,6 +14,7 @@ env:
 
 before_script:
 - go get github.com/onsi/ginkgo/ginkgo
+- go mod tidy
 
 script:
 - ginkgo ./...
@@ -24,12 +26,12 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key:
+  token:
     secure: Xj74zcKsvcZPKy67qLXp5bYPFBPh4crtbUMjPYM7BfGCxP9/7Cmhj/gaLdAaKKa2fPwOcZLs1I3ixdlaH9H6x4ORhSWoPYG/HIKYZQsXroQTRwkdN/JCBYKUT/gx2ngbu4wk7Wq2+sOw4Mw/kYAt8kzHRhDpdf72jcRQJlBkeVdlef0JUhYFM9hOCEa/6xVEs9/iUc8LwCMyd7o3oKtjSHsZaC1CBV16NRruDy0CnOD2r21VCXfJ5hUgAClNu8U3b0cLVOjEjwLkbUWYHm5Duk5VSbn0WNYO56mNK01aCOLq5+7PYxRLH+p1CmudQ3rTloBOVbBX+Q9TDKgHElxh4zYyI6FXXWS75ZyyjWd4qqiweJCWsFqe6Fo3c7JI8SV5OVNnaNu01dnj6dAxL9DabSblEI/qyyvYWm3hWCebzcOgdMRcYxD2+XppYguASZVs+qWiVRAVDkcEiN0/cPP2TK58Ei02QNaPAmU39Bqit0ABeDZqQBuXfaJZ8C95izVdn1SKwCfv4VUyqiugYRF9cD7cbrYsi1M+5EMQdiDTVAWGvtxQinySAgAH2a670iA4nZYQWQLg3GnVUXUHn4mvZ9i2zJFF2RgxLXRqj+ZEwa4sOwpdnOI45HYB71Sy4FE+uyHQM1TS/6P8hlEsBOsq29ABoMOmSs0rSwR7WA4IQPU=
   file:
   - release/gucci-v$VERSION-linux-amd64
   - release/gucci-v$VERSION-darwin-amd64
-  skip_cleanup: true
+  cleanup: false
   on:
     go: '1.12'
     repo: noqcks/gucci
