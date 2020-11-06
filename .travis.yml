@@ -1,38 +1,32 @@
 dist: xenial
 os: linux
 language: go
-
 go:
 - '1.12'
 - tip
-
 env:
   global:
   - VERSION=$(cat VERSION)
   - LDFLAGS='-X main.AppVersion=$VERSION -w -extldflags "static"'
   - GO111MODULE=on
-
 before_script:
 - go get github.com/onsi/ginkgo/ginkgo
 - go mod tidy
-
 script:
 - ginkgo ./...
-
 before_deploy:
 - mkdir -p release
 - GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
 - GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
-
 deploy:
   provider: releases
-  token:
-    secure: Xj74zcKsvcZPKy67qLXp5bYPFBPh4crtbUMjPYM7BfGCxP9/7Cmhj/gaLdAaKKa2fPwOcZLs1I3ixdlaH9H6x4ORhSWoPYG/HIKYZQsXroQTRwkdN/JCBYKUT/gx2ngbu4wk7Wq2+sOw4Mw/kYAt8kzHRhDpdf72jcRQJlBkeVdlef0JUhYFM9hOCEa/6xVEs9/iUc8LwCMyd7o3oKtjSHsZaC1CBV16NRruDy0CnOD2r21VCXfJ5hUgAClNu8U3b0cLVOjEjwLkbUWYHm5Duk5VSbn0WNYO56mNK01aCOLq5+7PYxRLH+p1CmudQ3rTloBOVbBX+Q9TDKgHElxh4zYyI6FXXWS75ZyyjWd4qqiweJCWsFqe6Fo3c7JI8SV5OVNnaNu01dnj6dAxL9DabSblEI/qyyvYWm3hWCebzcOgdMRcYxD2+XppYguASZVs+qWiVRAVDkcEiN0/cPP2TK58Ei02QNaPAmU39Bqit0ABeDZqQBuXfaJZ8C95izVdn1SKwCfv4VUyqiugYRF9cD7cbrYsi1M+5EMQdiDTVAWGvtxQinySAgAH2a670iA4nZYQWQLg3GnVUXUHn4mvZ9i2zJFF2RgxLXRqj+ZEwa4sOwpdnOI45HYB71Sy4FE+uyHQM1TS/6P8hlEsBOsq29ABoMOmSs0rSwR7WA4IQPU=
+  api_key:
+    secure: unxujdK5AVhRAsyI5DhfztzOhbv0AA6qdzrZISZRi2sjDr6cJOlYTSr75Da/J9H/NNQtD8LvGv461wjGmKtrBmzwY9QauP7oCFndakavPpcpyfmk8SOw/Stm/RpGvfskOY0Zon6osEpT/9u79Zpsi2PmAEqdwxbthLumha9KlCivQ1AnOdYQ13TS0vAFdbTPDzV/5zTbxUS0ncLgN4azAqu3R2bx0QZZrh3eK8QPQ8CTod34O3SsiKVbLst2/PngwQHT9hGZsZ/I3i3+sHMKHSchD9aXW/a/vkukBN1cjJBZiyUZpLEBdJ6Isgt9fGyTj9TLnaKrpYYOhY4IitoGvBWxeTH3Ud+gj7YmkY3XFxG317w8LOZSsdr96Tc80oPYtHqq1oL4AqiqLO1YfOEs1/KfS5NBVgNV+7EVa1x7DV+XQ2j2Ue6XjXnOPuh4aLpOzZjQCGFIUp3nhVXbs4vXkxtw4pFVO4vse98LmMP5PR0ePVGSXmLhHbIqdPFvlvp0IVf4YnXPX5tUOsFLthqsxkM0l2LNFOYnQYV83taTro+/mcuSRydA1JvF4/QfBIixxSXD80TS08g5bEs8KP//LmdAB/vWJq8tl/hUVPbjyKYRQ5ZjqkwhUsUoMMWe+2E0UsMpQGDfx0woI9NV1Nnyq6ax8JcLWHi23uQVBo4Q9WI=
   file:
-  - release/gucci-v$VERSION-linux-amd64
-  - release/gucci-v$VERSION-darwin-amd64
-  cleanup: false
+    - release/gucci-v$VERSION-linux-amd64
+    - release/gucci-v$VERSION-darwin-amd64
   on:
     go: '1.12'
     repo: noqcks/gucci
     tags: true
+  cleanup: 'false'
