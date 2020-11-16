@@ -21,7 +21,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: unxujdK5AVhRAsyI5DhfztzOhbv0AA6qdzrZISZRi2sjDr6cJOlYTSr75Da/J9H/NNQtD8LvGv461wjGmKtrBmzwY9QauP7oCFndakavPpcpyfmk8SOw/Stm/RpGvfskOY0Zon6osEpT/9u79Zpsi2PmAEqdwxbthLumha9KlCivQ1AnOdYQ13TS0vAFdbTPDzV/5zTbxUS0ncLgN4azAqu3R2bx0QZZrh3eK8QPQ8CTod34O3SsiKVbLst2/PngwQHT9hGZsZ/I3i3+sHMKHSchD9aXW/a/vkukBN1cjJBZiyUZpLEBdJ6Isgt9fGyTj9TLnaKrpYYOhY4IitoGvBWxeTH3Ud+gj7YmkY3XFxG317w8LOZSsdr96Tc80oPYtHqq1oL4AqiqLO1YfOEs1/KfS5NBVgNV+7EVa1x7DV+XQ2j2Ue6XjXnOPuh4aLpOzZjQCGFIUp3nhVXbs4vXkxtw4pFVO4vse98LmMP5PR0ePVGSXmLhHbIqdPFvlvp0IVf4YnXPX5tUOsFLthqsxkM0l2LNFOYnQYV83taTro+/mcuSRydA1JvF4/QfBIixxSXD80TS08g5bEs8KP//LmdAB/vWJq8tl/hUVPbjyKYRQ5ZjqkwhUsUoMMWe+2E0UsMpQGDfx0woI9NV1Nnyq6ax8JcLWHi23uQVBo4Q9WI=
+    secure: O4e/wo8FWIvxmzA7Wkt/d5oGThvZcMz2Ph0M9cM1rxAdMhsk8egxETDIjhEzMRElC5nZwh7TkjRmub7sayfy2hmto2LNVIZb4z1blhw7ZH1X4CmyM/oVUzPEodNeS0kPe2/oNS1LuCFOofjkT7vqQB/4h/lT227KAq1hTgxM6ItfwYe6adQ12ExyAtotSJd09rQcKOB7DMh0kA7SNrE1ZniexHnFWExZ0EU7vZ1btxnkjAbONNiwKs9lfavhOU6+3jV5t39Sm/Y36dcK20d7Pp1CJj4hwEmQkpUcRbyG7sDO5ZjBZpDBhAwOVA7wLPJ5cJ7rIGk8nDwDb2YtEtBtuHodotA80AzqkSjXsDuyMC47TIEa1QvG3RDlF/VHKBaC7MUQ/cfSzb+/LoKXslUInKjyfBA1neOXfY7NS+rlXpKNR2exvuxLMXS0Z7BrgyY/UjnhsWR6zcR5lZn2yoexGmAMuLBobEEoq/HtxLCD6i0Q8ujmnpGyTONRdLRMmS3d6adpBrdptRdO/Ibm9H2cAxfd9cH9o/1b/aknYSXusbZKqoDsrTFsnPzRu2ALwEt/pJQvnX+dRpAN9WmcVYNVpw/urZSIj7hA/hOixFM6D3rk1ELdsZ5N01a7pb15MbOAtk21+II/KnY7SSembSt+hpwaUhg/o9dsR1LZTokOFgU=
   file:
     - release/gucci-v$VERSION-linux-amd64
     - release/gucci-v$VERSION-darwin-amd64
@@ -29,4 +29,3 @@ deploy:
     go: '1.12'
     repo: noqcks/gucci
     tags: true
-  cleanup: 'false'
