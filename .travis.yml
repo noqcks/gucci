@@ -29,3 +29,4 @@ deploy:
     go: '1.12'
     repo: noqcks/gucci
     tags: true
+  skip_cleanup: true
