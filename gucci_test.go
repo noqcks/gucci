@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -52,7 +53,7 @@ func runTest(str, expect string) error {
 	}
 
 	var b bytes.Buffer
-	err = executeTemplate(testVarMap, &b, tpl)
+	err = executeTemplate(testVarMap, &b, tpl, []string{})
 	if err != nil {
 		return err
 	}
@@ -60,4 +61,37 @@ func runTest(str, expect string) error {
 		return fmt.Errorf("Expected '%s', got '%s'", expect, b.String())
 	}
 	return nil
+}
+
+func Test_getTplOpt(t *testing.T) {
+	type args struct {
+		cliTplOpt []string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{
+			name: "Default value if no option specified",
+			args: args {
+				cliTplOpt: []string{},
+			},
+			want: []string{"missingkey=error"},
+		},
+		{
+			name: "Specified Option",
+			args: args {
+				cliTplOpt: []string{"missingkey=zero"},
+			},
+			want: []string{"missingkey=zero"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getTplOpt(tt.args.cliTplOpt); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("getTplOpt() = %v, want %v", got, tt.want)
+			}
+	})
+}
 }

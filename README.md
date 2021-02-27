@@ -101,15 +101,73 @@ foo:
 
 ## Templating
 
-#### GoLang Functions
+### Options
+
+Existing [golang templating options](https://golang.org/pkg/text/template/#Template.Option) can be used for templating.
+
+If no option is specified, the `missingkey=error` option will be used (execution stops inmediately with an error if a
+key used in the template is not present in the supplied values).
+
+One might want a different value for `missingkey` when using conditionals and having keys that won't be
+used at all.
+
+For instance, given the following template, containing two docker-compose services `service1` and `service2`:
+
+```tpl
+# template.tpl
+version: "3.8"
+
+services:
+{{- if .service1 }}
+  service1:
+    image: {{ .service1.image }}
+    restart: "always"
+    ports: {{ toYaml .service1.ports | nindent 6}}
+{{- end }}
+{{- if .service2 }}
+  service2:
+    image: {{ .service2.image }}
+    restart: "unless-stopped"
+    ports: {{ toYaml .service2.ports | nindent 6}}
+{{- end }}
+```
+
+And imagine a scenario where whe only need `service2`. By using the following values file:
+
+```yaml
+# values.yaml
+service2:
+  image: "myservice:latest"  
+  ports: 
+    - "80"
+    - "443"
+```
+
+And using a different `missingkey=error`, we can actually get the desired result without having to define the values
+for `service1`:
+
+```shell
+$ gucci -o missingkey=zero -f values.yaml  template.tpl 
+version: "3.8"
+
+services:
+  service2:
+    image: myservice:latest
+    restart: "unless-stopped"
+    ports: 
+      - "80"
+      - "443"
+```
+
+### GoLang Functions
 
 All of the existing [golang templating functions](https://golang.org/pkg/text/template/#hdr-Functions) are available for use.
 
-#### Sprig Functions
+### Sprig Functions
 
 gucci ships with the [sprig templating functions library](http://masterminds.github.io/sprig/) offering a wide variety of template helpers. Sprig's `env` and `expandenv` functions are disabled in favor of gucci's own environment variable parsing (see below).
 
-#### Built In Functions
+### Built In Functions
 
 Furthermore, this tool also includes custom functions:
 
