@@ -105,7 +105,7 @@ foo:
 
 Existing [golang templating options](https://golang.org/pkg/text/template/#Template.Option) can be used for templating.
 
-If no option is specified, the `missingkey=error` option will be used (execution stops inmediately with an error if a
+If no option is specified, the `missingkey=error` option will be used (execution stops immediately with an error if a
 key used in the template is not present in the supplied values).
 
 One might want a different value for `missingkey` when using conditionals and having keys that won't be

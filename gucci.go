@@ -47,6 +47,7 @@ func main() {
 		cli.StringSliceFlag{
 			Name: flagSetOptLong,
 			Usage: "A template option (`KEY=VALUE`) to be applied",
+			Value: &cli.StringSlice{"missingkey=error"},
 		},
 	}
 
@@ -56,25 +57,13 @@ func main() {
 		if err != nil {
 			return cli.NewExitError(err, 1)
 		}
-
-		tplOpt := getTplOpt(c.StringSlice(flagSetOpt))
-
-		err = run(tplPath, vars, tplOpt)
+		err = run(tplPath, vars, c.StringSlice(flagSetOpt))
 		if err != nil {
 			return cli.NewExitError(err, 1)
 		}
 		return nil
 	}
 	app.Run(os.Args)
-}
-
-func getTplOpt(cliTplOpt []string) []string {
-	// Default behaviour if no options specified is to fail on missing keys
-	if len(cliTplOpt) == 0 {
-		cliTplOpt = append(cliTplOpt, "missingkey=error")
-	}
-
-	return cliTplOpt
 }
 
 func loadInputVarsFile(c *cli.Context) (map[string]interface{}, error) {
