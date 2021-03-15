@@ -19,6 +19,9 @@ const (
 
 	flagVarsFile     = "f"
 	flagVarsFileLong = flagVarsFile + ",vars-file"
+
+	flagSetOpt = "o"
+	flagSetOptLong = flagSetOpt + ",tpl-opt"
 )
 
 var (
@@ -41,6 +44,11 @@ func main() {
 			Name:  flagVarsFileLong,
 			Usage: "A json or yaml `FILE` from which to read variables",
 		},
+		cli.StringSliceFlag{
+			Name: flagSetOptLong,
+			Usage: "A template option (`KEY=VALUE`) to be applied",
+			Value: &cli.StringSlice{"missingkey=error"},
+		},
 	}
 
 	app.Action = func(c *cli.Context) error {
@@ -49,8 +57,7 @@ func main() {
 		if err != nil {
 			return cli.NewExitError(err, 1)
 		}
-
-		err = run(tplPath, vars)
+		err = run(tplPath, vars, c.StringSlice(flagSetOpt))
 		if err != nil {
 			return cli.NewExitError(err, 1)
 		}
@@ -119,8 +126,8 @@ func loadVariables(c *cli.Context) (map[string]interface{}, error) {
 	return vars, nil
 }
 
-func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *template.Template) error {
-	tpl.Option("missingkey=error")
+func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *template.Template, opt []string) error {
+	tpl.Option(opt...)
 	err := tpl.Execute(out, valuesIn)
 	if err != nil {
 		return fmt.Errorf("Failed to parse standard input: %v", err)
@@ -128,13 +135,13 @@ func executeTemplate(valuesIn map[string]interface{}, out io.Writer, tpl *templa
 	return nil
 }
 
-func run(tplPath string, vars map[string]interface{}) error {
+func run(tplPath string, vars map[string]interface{}, tplOpt []string) error {
 	tpl, err := loadTemplateFileOrStdin(tplPath)
 	if err != nil {
 		return err
 	}
 
-	err = executeTemplate(vars, os.Stdout, tpl)
+	err = executeTemplate(vars, os.Stdout, tpl, tplOpt)
 	if err != nil {
 		return err
 	}

@@ -52,7 +52,7 @@ func runTest(str, expect string) error {
 	}
 
 	var b bytes.Buffer
-	err = executeTemplate(testVarMap, &b, tpl)
+	err = executeTemplate(testVarMap, &b, tpl, []string{})
 	if err != nil {
 		return err
 	}
