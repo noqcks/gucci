@@ -17,7 +17,7 @@ $ go get github.com/noqcks/gucci
 Or you can just download the binary and move it into your `PATH`:
 
 ```
-VERSION=1.2.4
+VERSION=1.3.0
 wget -q https://github.com/noqcks/gucci/releases/download/${VERSION}/gucci-v${VERSION}-darwin-amd64
 chmod +x gucci-v${VERSION}-darwin-amd64
 mv gucci-v${VERSION}-darwin-amd64 /usr/local/bin/gucci
@@ -137,8 +137,8 @@ And imagine a scenario where whe only need `service2`. By using the following va
 ```yaml
 # values.yaml
 service2:
-  image: "myservice:latest"  
-  ports: 
+  image: "myservice:latest"
+  ports:
     - "80"
     - "443"
 ```
@@ -147,14 +147,14 @@ And using a different `missingkey=error`, we can actually get the desired result
 for `service1`:
 
 ```shell
-$ gucci -o missingkey=zero -f values.yaml  template.tpl 
+$ gucci -o missingkey=zero -f values.yaml  template.tpl
 version: "3.8"
 
 services:
   service2:
     image: myservice:latest
     restart: "unless-stopped"
-    ports: 
+    ports:
       - "80"
       - "443"
 ```
