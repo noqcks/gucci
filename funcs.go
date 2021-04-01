@@ -23,8 +23,8 @@ func getFuncMap() template.FuncMap {
 	return f
 }
 
-func shell(cmd string) (string, error) {
-	out, err := exec.Command("bash", "-c", cmd).Output()
+func shell(cmd ...string) (string, error) {
+	out, err := exec.Command("bash", "-c", strings.Join(cmd[:], "")).Output()
 	if err != nil {
 		return "", errors.Wrap(err, "Issue running command")
 	}
