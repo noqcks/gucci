@@ -17,7 +17,7 @@ $ go get github.com/noqcks/gucci
 Or you can just download the binary and move it into your `PATH`:
 
 ```
-VERSION=1.3.0
+VERSION=1.4.0
 wget -q https://github.com/noqcks/gucci/releases/download/${VERSION}/gucci-v${VERSION}-darwin-amd64
 chmod +x gucci-v${VERSION}-darwin-amd64
 mv gucci-v${VERSION}-darwin-amd64 /usr/local/bin/gucci
@@ -57,13 +57,15 @@ $ echo '{{ html "<escape-me/>" }}' | gucci
 ### Supplying Variable Inputs
 
 `gucci` can receive variables for use in templates in the following ways (in order of lowest to highest precedence):
-* A JSON or YAML file
-* Environment variables
-* Variable command options
+
+- A JSON or YAML file
+- Environment variables
+- Variable command options
 
 #### Variables File
 
 Given an example variables file:
+
 ```yaml
 # vars.yaml
 hosts:
@@ -72,6 +74,7 @@ hosts:
 ```
 
 Pass it into `gucci` with `-f` or `--vars-file`:
+
 ```bash
 $ gucci -f vars.yaml template.tpl
 ```
@@ -79,6 +82,7 @@ $ gucci -f vars.yaml template.tpl
 #### Environment Variables
 
 Here, `MY_HOST` is available to the template:
+
 ```bash
 $ export MY_HOST=localhost
 $ gucci template.tpl
@@ -87,6 +91,7 @@ $ gucci template.tpl
 #### Variable Options
 
 Pass variable options into `gucci` with `-s` or `--set-var`, which can be repeated:
+
 ```bash
 $ gucci -s foo.bar=baz template.tpl
 ```
@@ -173,36 +178,37 @@ Furthermore, this tool also includes custom functions:
 
 - `shell`: For arbitrary shell commands
 
-   ```
-   {{ shell "echo hello world" }}
-   ```
-   and
-   ```
-   # guest: world
-   {{ shell "echo hello " .guest }}
-   ```
+  ```
+  {{ shell "echo hello world" }}
+  ```
 
-   Both produce:
+  and
 
-   ```
-   hello world
-   ```
+  ```
+  # guest: world
+  {{ shell "echo hello " .guest }}
+  ```
 
+  Both produce:
+
+  ```
+  hello world
+  ```
 
 - `toYaml`: Print items in YAML format
 
-   ```
-   {{ $myList := list "a" "b" "c" }}
-   {{ toYaml $myList }}
-   ```
+  ```
+  {{ $myList := list "a" "b" "c" }}
+  {{ toYaml $myList }}
+  ```
 
-   Produces:
+  Produces:
 
-   ```
-   - a
-   - b
-   - c
-   ```
+  ```
+  - a
+  - b
+  - c
+  ```
 
 ### Example
 
@@ -211,7 +217,6 @@ Furthermore, this tool also includes custom functions:
 For example a var $LOCALHOST = 127.0.0.1
 
 gucci template.tpl > template.conf
-
 
 ```
 # template.tpl
@@ -237,7 +242,6 @@ server {{ . }}
 ```
 
 `gucci template.tpl > template.conf` -->
-
 
 ```
 # template.conf
