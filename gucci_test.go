@@ -24,6 +24,13 @@ func TestFuncShell(t *testing.T) {
 	}
 }
 
+func TestFuncShellArguments(t *testing.T) {
+	tpl := `{{ shell "echo " "hello" "world"}}`
+	if err := runTest(tpl, "helloworld"); err != nil {
+		t.Error(err)
+	}
+}
+
 func TestFuncShellError(t *testing.T) {
 	tpl := `{{ shell "non-existent" }}`
 	if err := runTest(tpl, ""); err == nil {

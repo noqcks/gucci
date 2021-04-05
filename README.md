@@ -176,8 +176,13 @@ Furthermore, this tool also includes custom functions:
    ```
    {{ shell "echo hello world" }}
    ```
+   and
+   ```
+   # guest: world
+   {{ shell "echo hello " .guest }}
+   ```
 
-   Produces:
+   Both produce:
 
    ```
    hello world

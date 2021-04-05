@@ -7,7 +7,7 @@ go:
 env:
   global:
   - VERSION=$(cat VERSION)
-  - LDFLAGS='-X main.AppVersion=$VERSION -w -extldflags "static"'
+  - LDFLAGS="-X main.AppVersion=$VERSION -w -extldflags static"
   - GO111MODULE=on
 before_script:
 - go get github.com/onsi/ginkgo/ginkgo
