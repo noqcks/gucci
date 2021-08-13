@@ -16,6 +16,7 @@ jobs:
       LDFLAGS: "-X main.AppVersion=$VERSION -w -extldflags static"
       GO111MODULE: on
     name: Release
+    runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
       - name: "Build + Test"
