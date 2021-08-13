@@ -15,6 +15,10 @@ jobs:
       VERSION: $(cat VERSION)
       LDFLAGS: "-X main.AppVersion=$VERSION -w -extldflags static"
       GO111MODULE: on
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64]
     name: Release
     runs-on: "ubuntu-latest"
     steps:
@@ -27,15 +31,16 @@ jobs:
         run: go get -u github.com/onsi/ginkgo/ginkgo
       - name: Test
         run: ginkgo ./...
-      - name: Build
-        run: >-
-          mkdir -p release &&
-          GOOS=linux GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64 &&
-          GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
-      - name: Release
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: true
-          files: |
-            release/gucci-*
+    - uses: wangyoucao577/go-release-action@v1.19
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: linux
+        goarch: amd64
+        ldflags: $LDFLAGS
+    - uses: wangyoucao577/go-release-action@v1.19
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: ${{ matrix.goos }}
+        goarch: ${{ matrix.goarch }}
+        ldflags: $LDFLAGS
+
