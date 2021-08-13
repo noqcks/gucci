@@ -18,16 +18,16 @@ jobs:
     name: Release
     steps:
       - uses: actions/checkout@v2
-      - name: Build + Test
-      run: |
-          go get github.com/onsi/ginkgo/ginkgo
-          go mod tidy
+      - name: "Build + Test"
+        run: |
+            go get github.com/onsi/ginkgo/ginkgo
+            go mod tidy
 
-          ginkgo ./...
+            ginkgo ./...
 
-          mkdir -p release
-          GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
-          GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
+            mkdir -p release
+            GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
+            GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
       - name: Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
