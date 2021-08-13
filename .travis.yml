@@ -2,7 +2,7 @@ dist: xenial
 os: linux
 language: go
 go:
-- '1.12'
+- '1.16'
 - tip
 env:
   global:
@@ -26,7 +26,7 @@ deploy:
     - release/gucci-v$VERSION-linux-amd64
     - release/gucci-v$VERSION-darwin-amd64
   on:
-    go: '1.12'
+    go: '1.16'
     repo: noqcks/gucci
     tags: true
   skip_cleanup: true
