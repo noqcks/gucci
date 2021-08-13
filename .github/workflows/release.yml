@@ -1,0 +1,37 @@
+name: Release
+
+on: [push]
+
+# on:
+#   push:
+#     branches:
+#       - master
+#     tags:
+#       - "*"
+
+jobs:
+  release:
+    env:
+      VERSION: $(cat VERSION)
+      LDFLAGS: "-X main.AppVersion=$VERSION -w -extldflags static"
+      GO111MODULE: on
+    name: Release
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build + Test
+      run: |
+          go get github.com/onsi/ginkgo/ginkgo
+          go mod tidy
+
+          ginkgo ./...
+
+          mkdir -p release
+          GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
+          GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
+      - name: Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: true
+          files: |
+            release/gucci-*
