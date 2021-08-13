@@ -28,10 +28,10 @@ jobs:
       - name: Test
         run: ginkgo ./...
       - name: Build
-        run: |
-            mkdir -p release
-            GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
-            GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
+        run: >-
+          mkdir -p release &&
+          GOOS=linux GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64 &&
+          GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
       - name: Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
