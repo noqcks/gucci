@@ -20,8 +20,6 @@ jobs:
         run: ginkgo ./...
   release:
     env:
-      VERSION: $(cat VERSION)
-      LDFLAGS: "-X main.AppVersion=$VERSION -w -extldflags static"
       GO111MODULE: on
     strategy:
       matrix:
@@ -42,5 +40,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          ldflags: $LDFLAGS
+          ldflags: -X main.AppVersion=1.5.0 -w -extldflags static
 
