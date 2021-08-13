@@ -1,4 +1,4 @@
-name: Release
+name: release
 
 on: [push]
 
@@ -19,13 +19,16 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
-      - name: "Build + Test"
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15.x
+      - name: Install Ginkgo
+        run: go get -u github.com/onsi/ginkgo/ginkgo
+      - name: Test
+        run: ginkgo ./...
+      - name: Build
         run: |
-            go get github.com/onsi/ginkgo/ginkgo
-            go mod tidy
-
-            ginkgo ./...
-
             mkdir -p release
             GOOS=linux  GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-linux-amd64
             GOOS=darwin GOARCH=amd64 go build -tags netgo -ldflags "$LDFLAGS" -o release/gucci-v$VERSION-darwin-amd64
