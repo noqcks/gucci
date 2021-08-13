@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Ginkgo
-        run: go get -u github.com/onsi/ginkgo/ginkgo
+        run: go get github.com/onsi/ginkgo/ginkgo
       - name: Test
         run: ginkgo ./...
   release:
