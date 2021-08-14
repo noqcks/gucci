@@ -34,7 +34,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: linux
           goarch: amd64
-          ldflags: $LDFLAGS
+          ldflags: "-X main.AppVersion=1.5.0 -w -extldflags static"
       - uses: wangyoucao577/go-release-action@v1.19
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
