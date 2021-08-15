@@ -18,9 +18,9 @@ Or you can just download the binary and move it into your `PATH`:
 
 ```
 VERSION=1.5.0
-wget -q https://github.com/noqcks/gucci/releases/download/${VERSION}/gucci_${VERSION}_darwin_amd64
-chmod +x gucci_${VERSION}_darwin_amd64
-mv gucci_${VERSION}_darwin_amd64 /usr/local/bin/gucci
+wget -q https://github.com/noqcks/gucci/releases/download/${VERSION}/gucci-v${VERSION}-darwin-amd64
+chmod +x gucci-v${VERSION}-darwin-amd64
+mv gucci-v${VERSION}-darwin-amd64 /usr/local/bin/gucci
 ```
 
 ## Use

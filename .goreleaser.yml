@@ -19,6 +19,8 @@ builds:
       - -X main.AppVersion={{.Env.VERSION}} -w -extldflags static
 archives:
   - format: binary
+    name_template: "{{ .ProjectName }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}"
+
 checksum:
   name_template: 'checksums.txt'
 snapshot:
