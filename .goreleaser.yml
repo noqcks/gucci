@@ -9,7 +9,6 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
-    format: binary
     goos:
       - linux
       - windows
@@ -18,6 +17,8 @@ builds:
       - amd64
     ldflags:
       - -X main.AppVersion={{.Env.VERSION}} -w -extldflags static
+archives:
+  - format: binary
 checksum:
   name_template: 'checksums.txt'
 snapshot:
