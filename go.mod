@@ -15,7 +15,7 @@ require (
 	github.com/spf13/cast v1.4.0 // indirect
 	github.com/urfave/cli v1.22.5
 	golang.org/x/crypto v0.0.0-20210812204632-0ba0e8f03122 // indirect
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 	golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e // indirect
-	golang.org/x/tools v0.1.5 // indirect
 	gopkg.in/yaml.v2 v2.3.0
 )
