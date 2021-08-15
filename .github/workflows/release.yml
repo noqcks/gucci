@@ -20,17 +20,14 @@ jobs:
   release:
     env:
       GO111MODULE: on
-      VERSION: $(cat)
-    strategy:
-      matrix:
-        goos: [linux, windows, darwin]
-        goarch: [amd64]
     name: Release
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Version
+        run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
