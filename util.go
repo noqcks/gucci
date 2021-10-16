@@ -30,7 +30,8 @@ func getKeyVal(item string) (key, val string) {
 
 func loadTemplateFile(tplFile string) (*template.Template, error) {
 	tplName := filepath.Base(tplFile)
-	tpl, err := template.New(tplName).Funcs(funcMap).ParseFiles(tplFile)
+	tpl := template.New(tplName)
+	_, err := tpl.Funcs(getFuncMap(tpl)).ParseFiles(tplFile)
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing template(s): %v", err)
 	}
@@ -47,7 +48,8 @@ func loadTemplateStream(name string, in io.Reader) (*template.Template, error) {
 }
 
 func loadTemplateString(name, s string) (*template.Template, error) {
-	tpl, err := template.New(name).Funcs(funcMap).Parse(s)
+	tpl := template.New(name)
+	tpl, err := tpl.Funcs(getFuncMap(tpl)).Parse(s)
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing template(s): %v", err)
 	}
