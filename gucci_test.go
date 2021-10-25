@@ -17,6 +17,41 @@ func TestSub(t *testing.T) {
 	}
 }
 
+func TestFuncIncludeNoVars(t *testing.T) {
+	tpl := `{{ define "a" }}Hi Jane{{ end }}{{ include "a" . }}`
+	if err := runTest(tpl, "Hi Jane"); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestFuncIncludeWithVars(t *testing.T) {
+	tpl := `{{ define "a" }}Hi {{ .name }}{{ end }}{{ $_ := set . "name" "John" }}{{ include "a" . }}`
+	if err := runTest(tpl, "Hi John"); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestFuncIncludePipe(t *testing.T) {
+	tpl := `{{ define "a" }}Hi Jane{{ end }}{{ include "a" . | indent 2 }}`
+	if err := runTest(tpl, "  Hi Jane"); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestFuncIncludeTooManyVars(t *testing.T) {
+	tpl := `{{ define "a" }}Hi {{ .name }}{{ end }}{{ $_ := set . "name" "John" }}{{ include "a" . . }}`
+	if err := runTest(tpl, ""); err == nil {
+		t.Error("expected error to many vars")
+	}
+}
+
+func TestFuncIncludeBadName(t *testing.T) {
+	tpl := `{{ define "a" }}Hi Jane{{ end }}{{ include "b" . }}`
+	if err := runTest(tpl, ""); err == nil {
+		t.Error("expected error bad template name")
+	}
+}
+
 func TestFuncShell(t *testing.T) {
 	tpl := `{{ shell "echo hello" }}`
 	if err := runTest(tpl, "hello"); err != nil {
