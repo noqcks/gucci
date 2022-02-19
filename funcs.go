@@ -34,20 +34,21 @@ func include(t *template.Template) func(templateName string, vars ...interface{}
 		if included == nil {
 			return "", errors.New(fmt.Sprintf("No such template '%v' found while calling 'include'.", templateName))
 		}
-		
-	  if err := included.ExecuteTemplate(buf, templateName, vars[0]); err != nil {
-	      return "", err
-	  }
-	  return buf.String(), nil
+
+		if err := included.ExecuteTemplate(buf, templateName, vars[0]); err != nil {
+			return "", err
+		}
+		return buf.String(), nil
 	}
 }
 
 func shell(cmd ...string) (string, error) {
 	out, err := exec.Command("bash", "-c", strings.Join(cmd[:], "")).Output()
-	if err != nil {
-		return "", errors.Wrap(err, "Issue running command")
-	}
 	output := strings.TrimSpace(string(out))
+	if err != nil {
+		return "", errors.Wrap(err, "Issue running command: "+output)
+	}
+
 	return output, nil
 }
 
