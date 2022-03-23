@@ -1,9 +1,7 @@
-name: release
+name: test
 
-on:
-  push:
-    branches:
-      - '*'
+on: push
+
 jobs:
   test:
     runs-on: "ubuntu-latest"
