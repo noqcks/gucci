@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -70,6 +71,14 @@ func TestFuncShellError(t *testing.T) {
 	tpl := `{{ shell "non-existent" }}`
 	if err := runTest(tpl, ""); err == nil {
 		t.Error("expected error missing")
+	}
+}
+
+func TestFuncShellDetailedError(t *testing.T) {
+	tpl := `{{ shell "echo saboteur ; exit 1" }}`
+	err := runTest(tpl, "")
+	if !strings.Contains(err.Error(), "saboteur") {
+		t.Error("expected stdout in error missing. actual: ", err)
 	}
 }
 

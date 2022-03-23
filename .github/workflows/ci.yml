@@ -1,0 +1,19 @@
+name: release
+
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  test:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.x
+      - name: Install Ginkgo
+        run: go get github.com/onsi/ginkgo/ginkgo
+      - name: Test
+        run: ginkgo ./...
