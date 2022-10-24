@@ -12,11 +12,9 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.18.x
+          go-version: 1.17.x
       - name: Install Ginkgo v2
-        run: |
-          go install github.com/onsi/ginkgo/v2/ginkgo
-          go get github.com/onsi/gomega/...
+        run: go get github.com/onsi/ginkgo/v2/ginkgo
       - name: Test
         run: ginkgo ./...
   release:
@@ -33,7 +31,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.18.x
+          go-version: 1.17.x
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
