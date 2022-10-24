@@ -14,8 +14,6 @@ import (
 
 func getFuncMap(t *template.Template) template.FuncMap {
 	f := sprig.TxtFuncMap()
-	delete(f, "env")
-	delete(f, "expandenv")
 
 	f["include"] = include(t)
 	f["shell"] = shell

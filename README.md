@@ -169,7 +169,7 @@ All of the existing [golang templating functions](https://golang.org/pkg/text/te
 
 ### Sprig Functions
 
-gucci ships with the [sprig templating functions library](http://masterminds.github.io/sprig/) offering a wide variety of template helpers. Sprig's `env` and `expandenv` functions are disabled in favor of gucci's own environment variable parsing (see below).
+gucci ships with the [sprig templating functions library](http://masterminds.github.io/sprig/) offering a wide variety of template helpers.
 
 ### Built In Functions
 
