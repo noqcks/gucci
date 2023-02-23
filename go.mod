@@ -1,14 +1,14 @@
 module github.com/noqcks/gucci
 
-go 1.17
+go 1.19
 
 require (
-	github.com/Masterminds/sprig/v3 v3.2.2
+	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/imdario/mergo v0.3.13
-	github.com/onsi/ginkgo/v2 v2.4.0
-	github.com/onsi/gomega v1.22.1
+	github.com/onsi/ginkgo/v2 v2.8.3
+	github.com/onsi/gomega v1.27.1
 	github.com/pkg/errors v0.9.1
-	github.com/urfave/cli v1.22.10
+	github.com/urfave/cli v1.22.12
 	gopkg.in/yaml.v2 v2.4.0
 )
 
