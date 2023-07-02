@@ -1,5 +1,4 @@
-# This is an example .goreleaser.yml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -38,14 +37,14 @@ signs:
   - cmd: cosign
     env:
     - COSIGN_EXPERIMENTAL=1
-    signature: "${artifact}-keyless.sig"
-    certificate: "${artifact}-keyless.pem"
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.pem"
     args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
     artifacts: binary
 
- - id: checksum-keyless
-    signature: "${artifact}-keyless.sig"
-    certificate: "${artifact}-keyless.pem"
+  - id: checksum-keyless
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.pem"
     cmd: ./dist/cosign-linux-amd64
     args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
     artifacts: checksum
