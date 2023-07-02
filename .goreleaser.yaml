@@ -1,5 +1,4 @@
-# This is an example .goreleaser.yml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -16,16 +15,45 @@ builds:
     goarch:
       - amd64
       - arm64
+    mod_timestamp: '{{ .CommitTimestamp }}'
     ldflags:
       - -X main.AppVersion={{.Env.VERSION}} -w -extldflags static
+
 archives:
   - format: binary
     name_template: "{{ .ProjectName }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}"
 
 checksum:
   name_template: 'checksums.txt'
+
+gomod:
+  proxy: true
+
+source:
+  enabled: true
+
+sboms:
+  - artifacts: archive
+  - id: source
+    artifacts: source
+
+signs:
+- cmd: cosign
+  env:
+  - COSIGN_EXPERIMENTAL=1
+  certificate: '${artifact}.pem'
+  args:
+    - sign-blob
+    - '--output-certificate=${certificate}'
+    - '--output-signature=${signature}'
+    - '${artifact}'
+    - "--yes" # needed on cosign 2.0.0+
+  artifacts: checksum
+  output: true
+
 snapshot:
   name_template: "{{ incpatch .Tag }}-next"
+
 changelog:
   sort: asc
   filters:
