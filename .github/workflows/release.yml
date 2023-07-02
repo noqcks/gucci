@@ -11,21 +11,21 @@ permissions:
   packages: write # needed for ghcr access
 
 jobs:
-  # test:
-  #   runs-on: "ubuntu-latest"
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Set up Go
-  #       uses: actions/setup-go@v3
-  #       with:
-  #         go-version: 1.19.x
-  #     - name: Install Ginkgo v2
-  #       run: go install github.com/onsi/ginkgo/v2/ginkgo@latest
-  #     - name: Test
-  #       run: ginkgo ./...
+  test:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.x
+      - name: Install Ginkgo v2
+        run: go install github.com/onsi/ginkgo/v2/ginkgo@latest
+      - name: Test
+        run: ginkgo ./...
 
   release:
-    # needs: [test]
+    needs: [test]
     env:
       GO111MODULE: on
     name: Release
