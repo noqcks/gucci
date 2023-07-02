@@ -37,14 +37,14 @@ signs:
   - cmd: cosign
     env:
     - COSIGN_EXPERIMENTAL=1
-    signature: "${artifact}.sig"
-    certificate: "${artifact}.pem"
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
     args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
     artifacts: binary
 
   - id: checksum-keyless
-    signature: "${artifact}.sig"
-    certificate: "${artifact}.pem"
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
     cmd: ./dist/cosign-linux-amd64
     args: ["sign-blob", "--output-signature", "${artifact}-keyless.sig", "--output-certificate", "${artifact}-keyless.pem", "${artifact}"]
     artifacts: checksum
