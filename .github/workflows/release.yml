@@ -44,6 +44,9 @@ jobs:
           go-version-file: 'go.mod'
           go-version: 1.19.x
 
+      - name: Install syft
+        run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.1.1
 
