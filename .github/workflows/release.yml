@@ -48,7 +48,7 @@ jobs:
         run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@v3.1.1
+        uses: sigstore/cosign-installer@v3.5.0
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
