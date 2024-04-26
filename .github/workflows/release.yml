@@ -44,9 +44,6 @@ jobs:
           go-version-file: 'go.mod'
           go-version: 1.19.x
 
-      - name: Install syft
-        run: go install github.com/anchore/syft/cmd/syft@latest
-
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.1.1
 
