@@ -3,7 +3,6 @@
 A simple CLI templating tool written in golang.
 
 [![GitHub version](https://badge.fury.io/gh/noqcks%2Fgucci.svg)](https://badge.fury.io/gh/noqcks%2Fgucci)
-[![Build Status](https://travis-ci.org/noqcks/gucci.svg?branch=master)](https://travis-ci.org/noqcks/gucci)
 
 ## Installation
 
