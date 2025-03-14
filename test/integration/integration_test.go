@@ -58,6 +58,17 @@ var _ = Describe("gucci", func() {
 			Expect(string(session.Out.Contents())).To(Equal("text bar text\n"))
 		})
 
+		It("loads multiple vars files", func() {
+			gucciCmd := exec.Command(gucciPath,
+				"-f", FixturePath("precedence_vars.yaml"),
+				"-f", FixturePath("simple_vars.yaml"),
+				FixturePath("simple.tpl"))
+
+			session := Run(gucciCmd)
+
+			Expect(string(session.Out.Contents())).To(Equal("text bar text\n"))
+		})
+
 		It("uses vars options", func() {
 			gucciCmd := exec.Command(gucciPath,
 				"-s", "FOO=bar",
@@ -121,6 +132,58 @@ var _ = Describe("gucci", func() {
 			session := Run(gucciCmd)
 
 			Expect(session.ExitCode()).To(Equal(0))
+		})
+	})
+
+	Describe("multiple vars files", func() {
+		It("should load variables from multiple files", func() {
+			gucciCmd := exec.Command(gucciPath,
+				"-f", FixturePath("multifiles/first.yaml"),
+				"-f", FixturePath("multifiles/second.yaml"),
+				FixturePath("multifiles/template.tpl"))
+
+			session := Run(gucciCmd)
+
+			output := string(session.Out.Contents())
+			Expect(output).To(ContainSubstring("A=from_first"))
+			Expect(output).To(ContainSubstring("B=from_second"))
+			Expect(output).To(ContainSubstring("C=from_second"))
+			Expect(output).To(ContainSubstring("FIRST_ONLY=exists"))
+			Expect(output).To(ContainSubstring("SECOND_ONLY=exists"))
+		})
+
+		It("should respect file order for precedence", func() {
+			// Second file specified last should override first file
+			gucciCmd := exec.Command(gucciPath,
+				"-f", FixturePath("multifiles/first.yaml"),
+				"-f", FixturePath("multifiles/second.yaml"),
+				FixturePath("multifiles/template.tpl"))
+
+			session := Run(gucciCmd)
+
+			Expect(string(session.Out.Contents())).To(ContainSubstring("B=from_second"))
+
+			// First file specified last should override second file
+			gucciCmd = exec.Command(gucciPath,
+				"-f", FixturePath("multifiles/second.yaml"),
+				"-f", FixturePath("multifiles/first.yaml"),
+				FixturePath("multifiles/template.tpl"))
+
+			session = Run(gucciCmd)
+
+			Expect(string(session.Out.Contents())).To(ContainSubstring("B=from_first"))
+		})
+
+		It("should still respect option variables over file variables", func() {
+			gucciCmd := exec.Command(gucciPath,
+				"-f", FixturePath("multifiles/first.yaml"),
+				"-f", FixturePath("multifiles/second.yaml"),
+				"-s", "C=from_opt",
+				FixturePath("multifiles/template.tpl"))
+
+			session := Run(gucciCmd)
+
+			Expect(string(session.Out.Contents())).To(ContainSubstring("C=from_opt"))
 		})
 	})
 
