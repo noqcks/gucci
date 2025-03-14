@@ -1,0 +1,69 @@
+testOne:
+- name: common
+  type: common-use-stuff
+  version: "1.0"
+- name: shovel
+  type: ""
+  version: "2.0.0"
+- name: gardener
+  type: ""
+  version: "3.1.0"
+
+testTwo:
+- name: common
+  repository: "some stuff for common use"
+  version: "3.1.0"
+- name: shovel
+  version: "2.1.0"
+- name: gardener
+  version: "3.2.0"
+- name: chauncey
+  version: "3.9.0"
+
+testThree:
+  # Nested structure with mixed values
+  nestedMap:
+    stringKey: "string value"
+    numericKey: 12345
+    booleanValue: true
+    nullValue: null
+    listValue:
+      - "item1"
+      - "item2"
+    objectValue:
+      subKey1: "nested value 1"
+      subKey2: "nested value 2"
+
+  # Map with numeric keys (this is what causes the interface{} key issue)
+  numericKeys:
+    1: "first value"
+    2: "second value"
+    3:
+      subKey: "nested under numeric key"
+
+  # Map with boolean keys (another problematic case)
+  booleanKeys:
+    true: "value for true"
+    false: "value for false"
+
+  # Deeply nested structure to test recursion
+  deeplyNested:
+    level1:
+      level2:
+        level3:
+          level4:
+            5: "five levels deep with numeric key"
+            array:
+              - name: "deep array item"
+                properties:
+                  6: "numeric key in deep array item"
+
+  # Mixed array types
+  mixedArray:
+    - "string item"
+    - 123
+    - true
+    - null
+    - key1: "value1"
+      key2: "value2"
+    - [1, 2, 3]

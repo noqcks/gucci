@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/imdario/mergo"
 	"io"
 	"log"
 	"os"
 	"text/template"
+
+	"github.com/imdario/mergo"
 
 	"github.com/urfave/cli"
 )
