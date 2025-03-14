@@ -252,8 +252,7 @@ server server2.com
 Setup:
 
 ```bash
-go get github.com/noqcks/gucci
-go get github.com/onsi/ginkgo/ginkgo
+go get github.com/onsi/ginkgo/v2/ginkgo
 go get github.com/onsi/gomega
 ```
 

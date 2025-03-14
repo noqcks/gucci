@@ -112,4 +112,16 @@ var _ = Describe("gucci", func() {
 
 	})
 
+	Describe("toJson and mustToJson functions", func() {
+		It("should handle map[interface {}]interface {} in toJson and mustToJson", func() {
+			gucciCmd := exec.Command(gucciPath,
+				"-f", FixturePath("issue63.yaml"),
+				FixturePath("issue63.tpl"))
+
+			session := Run(gucciCmd)
+
+			Expect(session.ExitCode()).To(Equal(0))
+		})
+	})
+
 })
