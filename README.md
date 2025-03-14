@@ -77,6 +77,12 @@ Pass it into `gucci` with `-f` or `--vars-file`:
 $ gucci -f vars.yaml template.tpl
 ```
 
+Multiple variables files can be provided, and will be merged in the order specified (later files override values from earlier files):
+
+```bash
+$ gucci -f base_vars.yaml -f override_vars.yaml template.tpl
+```
+
 #### Environment Variables
 
 Here, `MY_HOST` is available to the template:

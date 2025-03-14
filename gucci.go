@@ -41,9 +41,9 @@ func main() {
 			Name:  flagSetVarLong,
 			Usage: "A `KEY=VALUE` pair variable",
 		},
-		cli.StringFlag{
+		cli.StringSliceFlag{
 			Name:  flagVarsFileLong,
-			Usage: "A json or yaml `FILE` from which to read variables",
+			Usage: "A json or yaml `FILE` from which to read variables (can be specified multiple times)",
 		},
 		cli.StringSliceFlag{
 			Name: flagSetOptLong,
@@ -68,17 +68,21 @@ func main() {
 }
 
 func loadInputVarsFile(c *cli.Context) (map[string]interface{}, error) {
-	var vars map[string]interface{}
+	vars := make(map[string]interface{})
 
-	varsFilePath := c.String(flagVarsFile)
-	if varsFilePath != "" {
-		v, err := loadVarsFile(varsFilePath)
-		if err != nil {
-			return nil, err
+	varsFiles := c.StringSlice(flagVarsFile)
+	for _, varsFilePath := range varsFiles {
+		if varsFilePath != "" {
+			v, err := loadVarsFile(varsFilePath)
+			if err != nil {
+				return nil, err
+			}
+
+			err = mergo.Merge(&vars, v, mergo.WithOverride)
+			if err != nil {
+				return nil, err
+			}
 		}
-		vars = v
-	} else {
-		vars = make(map[string]interface{})
 	}
 
 	return vars, nil

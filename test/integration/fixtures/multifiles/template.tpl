@@ -1,0 +1,5 @@
+A={{.A}}
+B={{.B}}
+C={{.C}}
+FIRST_ONLY={{.FIRST_ONLY}}
+SECOND_ONLY={{.SECOND_ONLY}}
